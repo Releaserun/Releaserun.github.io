@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReleaseRun — Free Developer Tools for Release Risk</title>
+  <meta name="description" content="Free developer tools for CVE monitoring, end-of-life tracking, dependency scanning, and upgrade planning. 30+ tools, no signup.">
+  <link rel="canonical" href="https://releaserun.github.io">
+  <style>
+    :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; --orange: #d29922; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 48px 0 32px; text-align: center; border-bottom: 1px solid var(--border); }
+    header h1 { font-size: 2.4em; margin-bottom: 12px; }
+    header h1 span { color: var(--accent); }
+    header p { font-size: 1.2em; color: var(--muted); max-width: 600px; margin: 0 auto 24px; }
+    .cta { display: inline-block; background: var(--accent); color: var(--bg); padding: 12px 28px; border-radius: 6px; font-weight: 600; font-size: 1em; }
+    .cta:hover { opacity: 0.9; text-decoration: none; }
+    .tools { padding: 48px 0; }
+    .tools h2 { font-size: 1.6em; margin-bottom: 24px; text-align: center; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+    .card h3 { font-size: 1.1em; margin-bottom: 8px; }
+    .card h3 a { color: var(--text); } .card h3 a:hover { color: var(--accent); }
+    .card p { color: var(--muted); font-size: 0.9em; }
+    .tag { display: inline-block; font-size: 0.75em; padding: 2px 8px; border-radius: 12px; margin-top: 8px; }
+    .tag-free { background: rgba(63,185,80,0.15); color: var(--green); }
+    .tag-security { background: rgba(210,153,34,0.15); color: var(--orange); }
+    .about { padding: 48px 0; border-top: 1px solid var(--border); }
+    .about h2 { font-size: 1.4em; margin-bottom: 16px; }
+    .about p { color: var(--muted); margin-bottom: 12px; }
+    .links { padding: 32px 0; border-top: 1px solid var(--border); }
+    .links h2 { font-size: 1.2em; margin-bottom: 16px; }
+    .links ul { list-style: none; display: flex; flex-wrap: wrap; gap: 16px; }
+    .links li a { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9em; }
+    footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85em; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Release<span>Run</span></h1>
+    <p>Free developer tools for tracking software release risk. CVE monitoring, end-of-life checks, dependency scanning, and upgrade planning.</p>
+    <a href="https://releaserun.com/tools/" class="cta">Browse 30+ Free Tools</a>
+  </div>
+</header>
+
+<section class="tools">
+  <div class="container">
+    <h2>Featured Tools</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/cve-dashboard/">CVE Dashboard</a></h3>
+        <p>Real-time vulnerability monitoring across your entire stack. Filter by severity, CVSS score, and technology.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/vulnerability-scanner/">Dependency Vulnerability Scanner</a></h3>
+        <p>Upload package.json, requirements.txt, go.mod, or any dependency file. Get a full CVE report with fix versions.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/env-security-scanner/">.env Security Scanner</a></h3>
+        <p>Paste your .env file to detect leaked API keys, weak credentials, private keys, and JWT tokens. Client-side only.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/stack-supported-report-card/">Stack Support Report Card</a></h3>
+        <p>Check if your stack is still supported. Get a shareable report card with EOL dates and support status.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/github-actions-workflow-optimizer/">GitHub Actions Optimizer</a></h3>
+        <p>Analyze your workflow YAML for caching opportunities, unpinned actions, missing permissions, and security gaps.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/container-image-size-optimizer/">Container Image Optimizer</a></h3>
+        <p>Paste your Dockerfile and get layer analysis, anti-pattern detection, savings estimates, and an optimized multi-stage draft.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/stack-health/">Stack Health Scorecard</a></h3>
+        <p>Get a health grade for your entire technology stack based on EOL status, CVE exposure, and update freshness.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/migration-estimator/">Migration Estimator</a></h3>
+        <p>Estimate effort and risk for version upgrades. Get breaking change warnings and step-by-step upgrade paths.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/release-notes-diff/">Release Notes Diff</a></h3>
+        <p>Compare release notes between any two versions. See what changed, what broke, and what you need to update.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="container">
+    <h2>About ReleaseRun</h2>
+    <p><a href="https://releaserun.com">ReleaseRun</a> tracks software releases across the dev ecosystem. We cover 13+ core technologies including Node.js, React, TypeScript, Python, Go, Rust, Kubernetes, PostgreSQL, and more.</p>
+    <p>Our tools are built for engineering teams who need to understand release risk before upgrading. Everything is free, most tools run client-side, and no signup is required.</p>
+    <p>We also offer a <a href="https://www.npmjs.com/package/releaserun">CLI tool</a> that scans your dependency files for EOL versions and CVE risk directly from your terminal.</p>
+  </div>
+</section>
+
+<section class="links">
+  <div class="container">
+    <h2>Resources</h2>
+    <ul>
+      <li><a href="https://releaserun.com/tools/">All Tools</a></li>
+      <li><a href="https://releaserun.com/release-index/">Release Index</a></li>
+      <li><a href="https://releaserun.com/blog/">Blog</a></li>
+      <li><a href="https://releaserun.com/kubernetes-end-of-life/">Kubernetes EOL Tracker</a></li>
+      <li><a href="https://releaserun.com/python-end-of-life/">Python EOL Tracker</a></li>
+      <li><a href="https://releaserun.com/nodejs/">Node.js Releases</a></li>
+      <li><a href="https://github.com/Releaserun/releaserun-cli">CLI Source (GitHub)</a></li>
+      <li><a href="https://www.npmjs.com/package/releaserun">CLI on npm</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 <a href="https://releaserun.com">ReleaseRun</a>. All tools are free to use.</p>
+  </div>
+</footer>
+
+</body>
+</html>
