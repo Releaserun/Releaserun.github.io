@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embeddable Widgets — ReleaseRun</title>
+  <meta name="description" content="Free embeddable widgets for EOL status, stack health cards, and version badges. Add real-time release data to your docs, README, or dashboard.">
+  <style>
+    :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 48px 0 24px; border-bottom: 1px solid var(--border); }
+    header h1 { font-size: 2em; margin-bottom: 8px; }
+    header p { color: var(--muted); font-size: 1.1em; }
+    section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    section h2 { font-size: 1.5em; margin-bottom: 16px; }
+    section h3 { font-size: 1.1em; margin: 20px 0 8px; color: var(--muted); }
+    .widget-demo { margin: 16px 0; }
+    .widget-demo iframe { border: none; border-radius: 8px; }
+    pre { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; overflow-x: auto; font-size: 0.85em; margin: 12px 0; line-height: 1.5; position: relative; }
+    code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+    .copy-btn { position: absolute; top: 8px; right: 8px; background: var(--border); color: var(--text); border: none; border-radius: 4px; padding: 4px 10px; font-size: 0.75em; cursor: pointer; }
+    .copy-btn:hover { background: var(--accent); color: var(--bg); }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9em; }
+    th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .badge-row img { height: 24px; }
+    footer { padding: 32px 0; text-align: center; color: var(--muted); font-size: 0.85em; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Embeddable Widgets</h1>
+    <p>Add real-time release data to your docs, README, dashboard, or Confluence pages. All widgets are free and link back to <a href="https://releaserun.com/tools/">ReleaseRun</a>.</p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>1. EOL Status Widget</h2>
+    <p>Show the end-of-life status for any technology. Supports 300+ products via <a href="https://endoflife.date">endoflife.date</a>.</p>
+
+    <div class="widget-demo">
+      <iframe src="widgets/eol-status.html?product=nodejs&cycle=18" width="360" height="120" loading="lazy"></iframe>
+    </div>
+
+    <h3>Embed Code</h3>
+    <pre><code>&lt;iframe
+  src="https://releaserun.github.io/widgets/eol-status.html?product=nodejs&amp;cycle=18"
+  width="360" height="120"
+  style="border:none; border-radius:8px;"
+  loading="lazy"&gt;&lt;/iframe&gt;</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+    <h3>Parameters</h3>
+    <table>
+      <tr><th>Param</th><th>Default</th><th>Description</th></tr>
+      <tr><td><code>product</code></td><td>nodejs</td><td>Product slug from <a href="https://endoflife.date">endoflife.date</a> (e.g. python, kubernetes, postgresql)</td></tr>
+      <tr><td><code>cycle</code></td><td>(latest)</td><td>Version cycle (e.g. 18, 3.12, 1.29)</td></tr>
+      <tr><td><code>theme</code></td><td>dark</td><td>dark or light</td></tr>
+    </table>
+
+    <h3>Examples</h3>
+    <div class="widget-demo">
+      <iframe src="widgets/eol-status.html?product=python&cycle=3.9&theme=dark" width="360" height="120" loading="lazy" style="border:none;border-radius:8px"></iframe>
+      <iframe src="widgets/eol-status.html?product=kubernetes&cycle=1.28&theme=dark" width="360" height="120" loading="lazy" style="border:none;border-radius:8px;margin-left:8px"></iframe>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>2. Stack Health Card</h2>
+    <p>Show the health of your entire stack in one card. Pass a comma-separated list of products.</p>
+
+    <div class="widget-demo">
+      <iframe src="widgets/stack-card.html?stack=nodejs,python,postgresql,docker-engine,kubernetes" width="480" height="260" loading="lazy" style="border:none;border-radius:8px"></iframe>
+    </div>
+
+    <h3>Embed Code</h3>
+    <pre><code>&lt;iframe
+  src="https://releaserun.github.io/widgets/stack-card.html?stack=nodejs,python,postgresql,docker-engine,kubernetes"
+  width="480" height="260"
+  style="border:none; border-radius:8px;"
+  loading="lazy"&gt;&lt;/iframe&gt;</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+    <h3>Parameters</h3>
+    <table>
+      <tr><th>Param</th><th>Default</th><th>Description</th></tr>
+      <tr><td><code>stack</code></td><td>nodejs,python,postgresql,docker-engine,kubernetes</td><td>Comma-separated product slugs</td></tr>
+      <tr><td><code>theme</code></td><td>dark</td><td>dark or light</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>3. Version Badges (SVG)</h2>
+    <p>Shields-style SVG badges for any technology. Perfect for GitHub READMEs and docs.</p>
+
+    <div class="badge-row">
+      <img src="https://img.releaserun.com/badge/health/kubernetes.svg" alt="Kubernetes Health">
+      <img src="https://img.releaserun.com/badge/eol/python.svg" alt="Python EOL">
+      <img src="https://img.releaserun.com/badge/v/nodejs.svg" alt="Node.js Version">
+      <img src="https://img.releaserun.com/badge/health/postgresql.svg" alt="PostgreSQL Health">
+    </div>
+
+    <h3>Badge Types</h3>
+    <table>
+      <tr><th>Type</th><th>URL Pattern</th><th>Shows</th></tr>
+      <tr><td>Health</td><td><code>img.releaserun.com/badge/health/{product}.svg</code></td><td>Health grade (A-F)</td></tr>
+      <tr><td>EOL</td><td><code>img.releaserun.com/badge/eol/{product}.svg</code></td><td>EOL date or status</td></tr>
+      <tr><td>Version</td><td><code>img.releaserun.com/badge/v/{product}.svg</code></td><td>Latest version</td></tr>
+      <tr><td>CVE</td><td><code>img.releaserun.com/badge/cve/{product}.svg</code></td><td>Known CVE count</td></tr>
+    </table>
+
+    <h3>Markdown (for GitHub READMEs)</h3>
+    <pre><code>[![Kubernetes Health](https://img.releaserun.com/badge/health/kubernetes.svg)](https://releaserun.com/tools/stack-health/)
+[![Python EOL](https://img.releaserun.com/badge/eol/python.svg)](https://releaserun.com/python-end-of-life/)
+[![Node.js Version](https://img.releaserun.com/badge/v/nodejs.svg)](https://releaserun.com/nodejs/)</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>4. Full Tool Embeds</h2>
+    <p>Embed any <a href="https://releaserun.com/tools/">ReleaseRun tool</a> directly in your page using iframe embed mode.</p>
+
+    <h3>Embed Code</h3>
+    <pre><code>&lt;iframe
+  src="https://releaserun.com/tools/cve-dashboard/?rr_embed=1"
+  width="100%" height="600"
+  style="border:none; border-radius:8px;"
+  loading="lazy"&gt;&lt;/iframe&gt;</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+    <h3>Available Tools</h3>
+    <table>
+      <tr><th>Tool</th><th>Embed URL</th></tr>
+      <tr><td><a href="https://releaserun.com/tools/cve-dashboard/">CVE Dashboard</a></td><td><code>releaserun.com/tools/cve-dashboard/?rr_embed=1</code></td></tr>
+      <tr><td><a href="https://releaserun.com/tools/stack-health/">Stack Health</a></td><td><code>releaserun.com/tools/stack-health/?rr_embed=1</code></td></tr>
+      <tr><td><a href="https://releaserun.com/tools/vulnerability-scanner/">Vuln Scanner</a></td><td><code>releaserun.com/tools/vulnerability-scanner/?rr_embed=1</code></td></tr>
+      <tr><td><a href="https://releaserun.com/tools/env-security-scanner/">.env Scanner</a></td><td><code>releaserun.com/tools/env-security-scanner/?rr_embed=1</code></td></tr>
+      <tr><td><a href="https://releaserun.com/tools/container-image-size-optimizer/">Container Optimizer</a></td><td><code>releaserun.com/tools/container-image-size-optimizer/?rr_embed=1</code></td></tr>
+      <tr><td><a href="https://releaserun.com/tools/github-actions-workflow-optimizer/">GHA Optimizer</a></td><td><code>releaserun.com/tools/github-actions-workflow-optimizer/?rr_embed=1</code></td></tr>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>All widgets are free to use. <a href="https://releaserun.com">ReleaseRun</a> — Free developer tools for release risk tracking.</p>
+    <p style="margin-top:8px"><a href="https://releaserun.github.io">Home</a> · <a href="https://github.com/Releaserun/releaserun-cli">GitHub</a> · <a href="https://releaserun.com/tools/">All Tools</a></p>
+  </div>
+</footer>
+
+<script>
+function copyCode(btn) {
+  const code = btn.parentElement.querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+
+</body>
+</html>
