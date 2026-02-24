@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Version Card Widget — ReleaseRun</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: transparent; }
+    .widget { border: 1px solid #30363d; border-radius: 8px; overflow: hidden; max-width: 340px; background: #0d1117; color: #e6edf3; }
+    .widget.light { background: #fff; color: #1f2328; border-color: #d0d7de; }
+    .widget-header { padding: 10px 16px; border-bottom: 1px solid #30363d; display: flex; align-items: center; gap: 10px; }
+    .light .widget-header { border-color: #d0d7de; }
+    .widget-header .pkg-icon { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; }
+    .widget-header .name { font-weight: 600; font-size: 0.95em; flex: 1; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-active { background: #3fb950; }
+    .dot-eol { background: #f85149; }
+    .dot-warning { background: #d29922; }
+    .widget-body { padding: 14px 16px; }
+    .ver-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .ver-num { font-size: 1.8em; font-weight: 700; line-height: 1; font-family: 'SFMono-Regular', Consolas, monospace; }
+    .ver-label { font-size: 0.75em; color: #8b949e; text-transform: uppercase; letter-spacing: 0.04em; }
+    .light .ver-label { color: #656d76; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .info-item { padding: 8px 10px; border-radius: 6px; background: #161b22; }
+    .light .info-item { background: #f6f8fa; }
+    .info-item .info-val { font-size: 0.85em; font-weight: 600; margin-bottom: 1px; }
+    .info-item .info-key { font-size: 0.65em; color: #8b949e; text-transform: uppercase; letter-spacing: 0.04em; }
+    .light .info-item .info-key { color: #656d76; }
+    .badge-row { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+    .badge-row img { height: 20px; border-radius: 3px; }
+    .widget-footer { padding: 8px 16px; border-top: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+    .light .widget-footer { border-color: #d0d7de; }
+    .widget-footer a { color: #58a6ff; font-size: 0.75em; text-decoration: none; }
+    .widget-footer a:hover { text-decoration: underline; }
+    .widget-footer .powered { color: #484f58; font-size: 0.65em; }
+    .light .widget-footer .powered { color: #8b949e; }
+    .loading { padding: 32px 16px; text-align: center; color: #8b949e; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <div class="widget" id="widget">
+    <div class="loading">Loading version data...</div>
+  </div>
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const product = params.get('product') || 'nodejs';
+      const cycle = params.get('cycle') || '';
+      const theme = params.get('theme') || 'dark';
+      const showBadges = params.get('badges') !== 'false';
+      const w = document.getElementById('widget');
+
+      if (theme === 'light') w.classList.add('light');
+
+      const apiBase = 'https://endoflife.date/api';
+      fetch(`${apiBase}/${product}.json`)
+        .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
+        .then(data => {
+          const item = cycle ? data.find(d => d.cycle === cycle) : data[0];
+          if (!item) throw new Error('Cycle not found');
+
+          const productName = formatProductName(product);
+          const now = new Date();
+          const eolRaw = item.eol;
+          let statusClass, statusText;
+
+          if (eolRaw === false) {
+            statusClass = 'dot-active';
+            statusText = 'Active';
+          } else if (eolRaw === true) {
+            statusClass = 'dot-eol';
+            statusText = 'EOL';
+          } else {
+            const eolDate = new Date(eolRaw);
+            if (eolDate < now) {
+              statusClass = 'dot-eol';
+              statusText = 'EOL';
+            } else {
+              const daysLeft = Math.ceil((eolDate - now) / 86400000);
+              statusClass = daysLeft < 180 ? 'dot-warning' : 'dot-active';
+              statusText = daysLeft < 180 ? `EOL in ${daysLeft}d` : 'Active';
+            }
+          }
+
+          const latestVer = item.latest || item.cycle;
+          const releaseDate = item.releaseDate || 'N/A';
+          const lts = item.lts;
+          const support = item.support;
+
+          let supportText = 'N/A';
+          if (support === false) supportText = 'Security only';
+          else if (support === true) supportText = 'Full support';
+          else if (support) {
+            const sDate = new Date(support);
+            supportText = sDate < now ? 'Security only' : 'Full support';
+          }
+
+          const ltsText = lts === true ? 'Yes' : lts === false ? 'No' : lts ? `Since ${lts}` : 'No';
+
+          w.innerHTML = `
+            <div class="widget-header">
+              <span class="name">${productName}</span>
+              <span class="status-dot ${statusClass}" title="${statusText}"></span>
+            </div>
+            <div class="widget-body">
+              <div class="ver-row">
+                <span class="ver-num">${latestVer}</span>
+                <span class="ver-label">${statusText}</span>
+              </div>
+              <div class="info-grid">
+                <div class="info-item">
+                  <div class="info-val">${releaseDate}</div>
+                  <div class="info-key">Released</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-val">${ltsText}</div>
+                  <div class="info-key">LTS</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-val">${supportText}</div>
+                  <div class="info-key">Support</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-val">${typeof eolRaw === 'string' ? eolRaw : (eolRaw === false ? 'TBD' : 'Ended')}</div>
+                  <div class="info-key">EOL Date</div>
+                </div>
+              </div>
+              ${showBadges ? `<div class="badge-row">
+                <img src="https://img.releaserun.com/badge/v/${product}.svg" alt="Version badge" loading="lazy">
+                <img src="https://img.releaserun.com/badge/eol/${product}.svg" alt="EOL badge" loading="lazy">
+              </div>` : ''}
+            </div>
+            <div class="widget-footer">
+              <span class="powered">Powered by <a href="https://releaserun.com">ReleaseRun</a></span>
+              <a href="https://releaserun.com/tools/eol-timeline/?utm_source=widget&utm_medium=embed&utm_campaign=version-card">Timeline →</a>
+            </div>
+          `;
+        })
+        .catch(err => {
+          w.innerHTML = `<div class="loading" style="color:#f85149;">Could not load data for "${product}"</div>`;
+        });
+
+      function formatProductName(prod) {
+        const names = {
+          'nodejs': 'Node.js', 'python': 'Python', 'go': 'Go', 'kubernetes': 'Kubernetes',
+          'docker': 'Docker Engine', 'postgresql': 'PostgreSQL', 'mysql': 'MySQL',
+          'redis': 'Redis', 'nginx': 'Nginx', 'php': 'PHP', 'ruby': 'Ruby',
+          'react': 'React', 'angular': 'Angular', 'vue': 'Vue.js',
+          'terraform': 'Terraform', 'elasticsearch': 'Elasticsearch',
+          'mongodb': 'MongoDB', 'mariadb': 'MariaDB', 'ubuntu': 'Ubuntu',
+          'debian': 'Debian', 'centos': 'CentOS', 'rhel': 'RHEL',
+          'dotnet': '.NET', 'java': 'Java', 'spring-boot': 'Spring Boot',
+          'laravel': 'Laravel', 'django': 'Django', 'rails': 'Ruby on Rails'
+        };
+        return names[prod.toLowerCase()] || prod.charAt(0).toUpperCase() + prod.slice(1);
+      }
+    })();
+  </script>
+</body>
+</html>
