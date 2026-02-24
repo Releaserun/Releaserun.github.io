@@ -99,7 +99,62 @@
 
 <section>
   <div class="container">
-    <h2>3. Version Badges (SVG)</h2>
+    <h2>3. CVE Counter Widget</h2>
+    <p>Show the vulnerability breakdown for any product version. Pulls live data from the OSV database.</p>
+
+    <div class="widget-demo">
+      <iframe src="widgets/cve-counter.html?product=kubernetes&version=1.28" width="380" height="200" loading="lazy" style="border:none;border-radius:8px"></iframe>
+      <iframe src="widgets/cve-counter.html?product=nodejs&version=20&theme=light" width="380" height="200" loading="lazy" style="border:none;border-radius:8px;margin-left:8px"></iframe>
+    </div>
+
+    <h3>Embed Code</h3>
+    <pre><code>&lt;iframe
+  src="https://releaserun.github.io/widgets/cve-counter.html?product=kubernetes&amp;version=1.28"
+  width="380" height="200"
+  style="border:none; border-radius:8px;"
+  loading="lazy"&gt;&lt;/iframe&gt;</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+    <h3>Parameters</h3>
+    <table>
+      <tr><th>Param</th><th>Default</th><th>Description</th></tr>
+      <tr><td><code>product</code></td><td>nodejs</td><td>Product slug (nodejs, python, kubernetes, etc.)</td></tr>
+      <tr><td><code>version</code></td><td>(latest)</td><td>Specific version to check</td></tr>
+      <tr><td><code>theme</code></td><td>dark</td><td>dark or light</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>4. Version Card Widget</h2>
+    <p>Compact card showing current version, release date, support status, and EOL date for any product.</p>
+
+    <div class="widget-demo">
+      <iframe src="widgets/version-card.html?product=python&cycle=3.12" width="340" height="220" loading="lazy" style="border:none;border-radius:8px"></iframe>
+      <iframe src="widgets/version-card.html?product=nodejs&cycle=22&theme=light" width="340" height="220" loading="lazy" style="border:none;border-radius:8px;margin-left:8px"></iframe>
+    </div>
+
+    <h3>Embed Code</h3>
+    <pre><code>&lt;iframe
+  src="https://releaserun.github.io/widgets/version-card.html?product=python&amp;cycle=3.12"
+  width="340" height="220"
+  style="border:none; border-radius:8px;"
+  loading="lazy"&gt;&lt;/iframe&gt;</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+    <h3>Parameters</h3>
+    <table>
+      <tr><th>Param</th><th>Default</th><th>Description</th></tr>
+      <tr><td><code>product</code></td><td>nodejs</td><td>Product slug from endoflife.date</td></tr>
+      <tr><td><code>cycle</code></td><td>(latest)</td><td>Version cycle (e.g. 3.12, 22, 1.28)</td></tr>
+      <tr><td><code>badges</code></td><td>true</td><td>Show SVG badges (true/false)</td></tr>
+      <tr><td><code>theme</code></td><td>dark</td><td>dark or light</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>5. Version Badges (SVG)</h2>
     <p>Shields-style SVG badges for any technology. Perfect for GitHub READMEs and docs.</p>
 
     <div class="badge-row">
@@ -127,7 +182,7 @@
 
 <section>
   <div class="container">
-    <h2>4. Full Tool Embeds</h2>
+    <h2>6. Full Tool Embeds</h2>
     <p>Embed any <a href="https://releaserun.com/tools/">ReleaseRun tool</a> directly in your page using iframe embed mode.</p>
 
     <h3>Embed Code</h3>
@@ -146,6 +201,7 @@
       <tr><td><a href="https://releaserun.com/tools/env-security-scanner/">.env Scanner</a></td><td><code>releaserun.com/tools/env-security-scanner/?rr_embed=1</code></td></tr>
       <tr><td><a href="https://releaserun.com/tools/container-image-size-optimizer/">Container Optimizer</a></td><td><code>releaserun.com/tools/container-image-size-optimizer/?rr_embed=1</code></td></tr>
       <tr><td><a href="https://releaserun.com/tools/github-actions-workflow-optimizer/">GHA Optimizer</a></td><td><code>releaserun.com/tools/github-actions-workflow-optimizer/?rr_embed=1</code></td></tr>
+      <tr><td><a href="https://releaserun.com/tools/k8s-upgrade-simulator/">K8s Upgrade Simulator</a></td><td><code>releaserun.com/tools/k8s-upgrade-simulator/?rr_embed=1</code></td></tr>
     </table>
   </div>
 </section>
