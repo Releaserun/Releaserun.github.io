@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Developer Tools — ReleaseRun</title>
-  <meta name="description" content="30+ free developer tools for release tracking, vulnerability scanning, dependency auditing, and upgrade planning. No signup required.">
+  <meta name="description" content="50+ free developer tools for security scanning, Kubernetes management, release tracking, and DevOps automation. No signup required.">
   <style>
     :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
     a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
     header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); text-align: center; }
     header h1 { font-size: 2.2em; margin-bottom: 12px; }
-    header p { color: var(--muted); font-size: 1.1em; max-width: 600px; margin: 0 auto; }
-    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 32px 0; }
+    header p { color: var(--muted); font-size: 1.1em; max-width: 640px; margin: 0 auto; }
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 24px 0 32px; }
     .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; transition: border-color 0.2s; }
     .tool-card:hover { border-color: var(--accent); }
     .tool-card h3 { font-size: 1em; margin-bottom: 8px; }
@@ -25,8 +25,9 @@
     .tag-security { background: rgba(248,81,73,0.15); color: #f85149; }
     .tag-k8s { background: rgba(63,185,80,0.15); color: var(--green); }
     .tag-devops { background: rgba(210,153,34,0.15); color: #d29922; }
+    .tag-util { background: rgba(163,113,247,0.15); color: #a371f7; }
     .section-title { font-size: 1.4em; padding-top: 32px; margin-bottom: 4px; }
-    .section-sub { color: var(--muted); font-size: 0.9em; margin-bottom: 16px; }
+    .section-sub { color: var(--muted); font-size: 0.9em; margin-bottom: 8px; }
     footer { padding: 32px 0; text-align: center; color: var(--muted); font-size: 0.85em; border-top: 1px solid var(--border); margin-top: 32px; }
   </style>
 </head>
@@ -35,12 +36,14 @@
 <header>
   <div class="container">
     <h1>Free Developer Tools</h1>
-    <p>30+ tools for release tracking, vulnerability scanning, dependency auditing, and infrastructure planning. All free, no signup required.</p>
+    <p>50+ tools for security scanning, Kubernetes management, release tracking, and DevOps automation. All free, no signup required.</p>
   </div>
 </header>
 
 <div class="container">
-  <h2 class="section-title">Security & Vulnerability</h2>
+
+  <!-- SECURITY & VULNERABILITY -->
+  <h2 class="section-title">Security &amp; Vulnerability</h2>
   <p class="section-sub">Find and fix security issues in your stack</p>
   <div class="tools-grid">
     <div class="tool-card">
@@ -73,20 +76,34 @@
       <p>Deep analysis of SSL certificates. Check expiry, chain validity, cipher suites, and protocol support.</p>
       <div class="tags"><span class="tag tag-security">Security</span><span class="tag">SSL</span></div>
     </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/ssl-config-generator/">SSL/TLS Config Generator</a></h3>
+      <p>Generate secure SSL/TLS configs for Nginx, Apache, Caddy, HAProxy, and Traefik. Based on Mozilla guidelines.</p>
+      <div class="tags"><span class="tag tag-security">Security</span><span class="tag tag-devops">Web Servers</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/jwt-decoder/">JWT Decoder &amp; Inspector</a></h3>
+      <p>Decode, inspect, and validate JSON Web Tokens with security analysis and expiration tracking. Client-side only.</p>
+      <div class="tags"><span class="tag tag-security">Security</span><span class="tag">JWT</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/sbom-analyzer/">SBOM Health Analyzer</a></h3>
+      <p>Analyze Software Bill of Materials for license risks, outdated components, and supply chain vulnerabilities.</p>
+      <div class="tags"><span class="tag tag-security">Security</span><span class="tag">SBOM</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/actions-auditor/">GitHub Actions Auditor</a></h3>
+      <p>Security audit for GitHub Actions workflows. Detects unpinned actions, secret leaks, and privilege escalation risks.</p>
+      <div class="tags"><span class="tag tag-security">Security</span><span class="tag">CI/CD</span></div>
+    </div>
   </div>
 
+  <!-- KUBERNETES -->
   <h2 class="section-title">Kubernetes</h2>
   <p class="section-sub">Tools for K8s cluster management and upgrades</p>
   <div class="tools-grid">
     <div class="tool-card">
-      <h3><a href="https://releaserun.com/tools/k8s-upgrade-simulator/">K8s Upgrade Simulator</a>
-            <a href="https://releaserun.com/tools/k8s-rbac-generator/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">🔐</span>
-                <div>
-                    <strong>K8s RBAC Policy Generator</strong>
-                    <p>Wizard-based least-privilege RBAC YAML generator for Kubernetes roles and bindings.</p>
-                </div>
-            </a></h3>
+      <h3><a href="https://releaserun.com/tools/k8s-upgrade-simulator/">K8s Upgrade Simulator</a></h3>
       <p>Plan your cluster upgrade path. See API deprecations, breaking changes, and required actions at each step.</p>
       <div class="tags"><span class="tag tag-k8s">Kubernetes</span><span class="tag">Upgrades</span></div>
     </div>
@@ -101,13 +118,24 @@
       <div class="tags"><span class="tag tag-k8s">Kubernetes</span><span class="tag">Cost</span></div>
     </div>
     <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/k8s-rbac-generator/">K8s RBAC Policy Generator</a></h3>
+      <p>Wizard-based least-privilege RBAC YAML generator for Kubernetes roles and bindings.</p>
+      <div class="tags"><span class="tag tag-k8s">Kubernetes</span><span class="tag tag-security">Security</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/k8s-resource-calculator/">K8s Resource Calculator</a></h3>
+      <p>Calculate CPU/memory requests, node sizing, and cost estimation for Kubernetes workloads.</p>
+      <div class="tags"><span class="tag tag-k8s">Kubernetes</span><span class="tag">Resources</span></div>
+    </div>
+    <div class="tool-card">
       <h3><a href="https://releaserun.com/tools/helm-checker/">Helm Chart Compatibility</a></h3>
       <p>Check Helm chart compatibility with your Kubernetes version. Validates API versions and dependencies.</p>
       <div class="tags"><span class="tag tag-k8s">Kubernetes</span><span class="tag">Helm</span></div>
     </div>
   </div>
 
-  <h2 class="section-title">DevOps & Infrastructure</h2>
+  <!-- DEVOPS & INFRASTRUCTURE -->
+  <h2 class="section-title">DevOps &amp; Infrastructure</h2>
   <p class="section-sub">CI/CD, containers, and infrastructure tools</p>
   <div class="tools-grid">
     <div class="tool-card">
@@ -116,14 +144,19 @@
       <div class="tags"><span class="tag tag-devops">Terraform</span><span class="tag">Compatibility</span></div>
     </div>
     <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/terraform-checker/">Terraform Provider Checker</a></h3>
+      <p>Validate Terraform provider versions and check for updates across your infrastructure code.</p>
+      <div class="tags"><span class="tag tag-devops">Terraform</span><span class="tag">Validation</span></div>
+    </div>
+    <div class="tool-card">
       <h3><a href="https://releaserun.com/tools/container-image-size-optimizer/">Container Image Optimizer</a></h3>
       <p>Analyze your Docker images and get actionable recommendations to reduce image size.</p>
       <div class="tags"><span class="tag tag-devops">Docker</span><span class="tag">Optimization</span></div>
     </div>
     <div class="tool-card">
-      <h3><a href="https://releaserun.com/tools/github-actions-workflow-optimizer/">GitHub Actions Optimizer</a></h3>
-      <p>Audit your workflow files for caching, pinning, security, and performance improvements.</p>
-      <div class="tags"><span class="tag tag-devops">CI/CD</span><span class="tag">GitHub</span></div>
+      <h3><a href="https://releaserun.com/tools/container-image-picker/">Container Base Image Picker</a></h3>
+      <p>Compare base images by size, security, and features. Find the right starting point for your containers.</p>
+      <div class="tags"><span class="tag tag-devops">Docker</span><span class="tag">Images</span></div>
     </div>
     <div class="tool-card">
       <h3><a href="https://releaserun.com/tools/compose-checker/">Docker Compose Checker</a></h3>
@@ -131,72 +164,54 @@
       <div class="tags"><span class="tag tag-devops">Docker</span><span class="tag">Compose</span></div>
     </div>
     <div class="tool-card">
-      <h3><a href="https://releaserun.com/tools/ci-cost-calculator/">CI/CD Cost Calculator</a>
-            <a href="https://releaserun.com/tools/cron-builder/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">⏰</span>
-                <div>
-                    <strong>Cron Expression Builder</strong>
-                    <p>Build, parse, and test cron expressions visually with next execution preview.</p>
-                </div>
-            </a>
-            <a href="https://releaserun.com/tools/yaml-json-converter/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">🔄</span>
-                <div>
-                    <strong>YAML ↔ JSON Converter</strong>
-                    <p>Convert, validate, and format YAML and JSON with real-time preview and presets.</p>
-                </div>
-            </a>
-            <a href="https://releaserun.com/tools/regex-tester/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">🔍</span>
-                <div>
-                    <strong>Regex Tester & Debugger</strong>
-                    <p>Test regex patterns with live highlighting, substitution, code generation, and cheat sheet.</p>
-                </div>
-            </a>
-            <a href="https://releaserun.com/tools/cidr-calculator/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">🌐</span>
-                <div>
-                    <strong>CIDR / Subnet Calculator</strong>
-                    <p>Calculate subnets, split networks, and visualize IP address allocation for IPv4 and IPv6.</p>
-                </div>
-            </a>
-            <a href="https://releaserun.com/tools/nginx-config-generator/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">⚙️</span>
-                <div>
-                    <strong>Nginx Config Generator</strong>
-                    <p>Generate production-ready Nginx configs with SSL, security headers, and reverse proxy settings.</p>
-                </div>
-            </a>
-            <a href="https://releaserun.com/tools/k8s-resource-calculator/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">📊</span>
-                <div>
-                    <strong>K8s Resource Calculator</strong>
-                    <p>Calculate CPU/memory requests, node sizing, and cost estimation for Kubernetes workloads.</p>
-                </div>
-            </a></h3>
-      <p>Compare real costs across GitHub Actions, GitLab CI, CircleCI, Buildkite, and Jenkins. Stop overpaying for builds.</p>
+      <h3><a href="https://releaserun.com/tools/compose-to-k8s/">Docker Compose to K8s Converter</a></h3>
+      <p>Convert docker-compose.yml to Kubernetes Deployments, Services, ConfigMaps and PVCs.</p>
+      <div class="tags"><span class="tag tag-k8s">Kubernetes</span><span class="tag">Docker</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/github-actions-workflow-optimizer/">GitHub Actions Optimizer</a></h3>
+      <p>Audit your workflow files for caching, pinning, security, and performance improvements.</p>
+      <div class="tags"><span class="tag tag-devops">CI/CD</span><span class="tag">GitHub</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/ci-cost-calculator/">CI/CD Cost Calculator</a></h3>
+      <p>Compare real costs across GitHub Actions, GitLab CI, CircleCI, Buildkite, and Jenkins.</p>
       <div class="tags"><span class="tag tag-devops">CI/CD</span><span class="tag">Cost</span></div>
     </div>
     <div class="tool-card">
-      <h3><a href="https://releaserun.com/tools/api-deprecation-timeline/">API Deprecation Timeline</a>
-            <a href="https://releaserun.com/tools/db-migration-risk/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">🗄️</span>
-                <div>
-                    <strong>Database Migration Risk Assessor</strong>
-                    <p>Assess risk, estimate downtime, and find breaking changes before database migrations.</p>
-                </div>
-            </a></h3>
-      <p>Track upcoming API sunsets across Google Cloud, AWS, Azure, Stripe, Twilio, and more. Plan migrations before deadlines.</p>
+      <h3><a href="https://releaserun.com/tools/ci-calculator/">CI Pipeline Upgrade Calculator</a></h3>
+      <p>Calculate the cost and effort of upgrading your CI/CD pipeline between platforms.</p>
+      <div class="tags"><span class="tag tag-devops">CI/CD</span><span class="tag">Planning</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/api-deprecation-timeline/">API Deprecation Timeline</a></h3>
+      <p>Track upcoming API sunsets across Google, AWS, Azure, Stripe, Twilio, and more.</p>
       <div class="tags"><span class="tag tag-devops">APIs</span><span class="tag">Deprecation</span></div>
     </div>
     <div class="tool-card">
-      <h3><a href="https://releaserun.com/tools/compose-to-k8s/">Docker Compose to K8s Converter</a></h3>
-      <p>Convert docker-compose.yml to Kubernetes Deployments, Services, ConfigMaps and PVCs. Educational concept mapping included.</p>
-      <div class="tags"><span class="tag tag-k8s">Kubernetes</span><span class="tag">Docker</span></div>
+      <h3><a href="https://releaserun.com/tools/nginx-config-generator/">Nginx Config Generator</a></h3>
+      <p>Generate production-ready Nginx configs with SSL, security headers, and reverse proxy settings.</p>
+      <div class="tags"><span class="tag tag-devops">Web Servers</span><span class="tag">Nginx</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/config-drift/">Configuration Drift Detector</a></h3>
+      <p>Detect configuration differences between environments. Catch drift before it causes incidents.</p>
+      <div class="tags"><span class="tag tag-devops">Config</span><span class="tag">Monitoring</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/db-migration-risk/">Database Migration Risk Assessor</a></h3>
+      <p>Assess risk, estimate downtime, and find breaking changes before database migrations.</p>
+      <div class="tags"><span class="tag tag-devops">Database</span><span class="tag">Migration</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/cron-builder/">Cron Expression Builder</a></h3>
+      <p>Build, parse, and test cron expressions visually. Preview next 10 executions across platforms.</p>
+      <div class="tags"><span class="tag tag-devops">Scheduling</span><span class="tag">Cron</span></div>
     </div>
   </div>
 
-  <h2 class="section-title">Release Tracking & Planning</h2>
+  <!-- RELEASE TRACKING & PLANNING -->
+  <h2 class="section-title">Release Tracking &amp; Planning</h2>
   <p class="section-sub">Stay on top of versions, EOL dates, and upgrade paths</p>
   <div class="tools-grid">
     <div class="tool-card">
@@ -205,8 +220,13 @@
       <div class="tags"><span class="tag">Health</span><span class="tag">Stack</span></div>
     </div>
     <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/stack-supported-report-card/">Stack Support Report Card</a></h3>
+      <p>Check if your tech stack is still actively supported. Get a pass/fail grade for each component.</p>
+      <div class="tags"><span class="tag">Support</span><span class="tag">Stack</span></div>
+    </div>
+    <div class="tool-card">
       <h3><a href="https://releaserun.com/tools/eol-timeline/">EOL Timeline Visualizer</a></h3>
-      <p>Visual timeline of end-of-life dates for 300+ technologies. Plan your upgrades before support runs out.</p>
+      <p>Visual timeline of end-of-life dates for 300+ technologies. Plan upgrades before support runs out.</p>
       <div class="tags"><span class="tag">EOL</span><span class="tag">Timeline</span></div>
     </div>
     <div class="tool-card">
@@ -225,42 +245,102 @@
       <div class="tags"><span class="tag">Migration</span><span class="tag">Planning</span></div>
     </div>
     <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/version-picker/">Which Version Should I Use?</a></h3>
+      <p>Not sure which version to adopt? Get recommendations based on stability, support, and community adoption.</p>
+      <div class="tags"><span class="tag">Versions</span><span class="tag">Advice</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/cloud-matrix/">Cloud Version Matrix</a></h3>
+      <p>Compare runtime versions across AWS, GCP, and Azure. See what each cloud supports today.</p>
+      <div class="tags"><span class="tag">Cloud</span><span class="tag">Matrix</span></div>
+    </div>
+    <div class="tool-card">
       <h3><a href="https://releaserun.com/tools/badge-generator/">README Badge Generator</a></h3>
       <p>Generate SVG badges for your README showing version, EOL status, health grades, and CVE counts.</p>
       <div class="tags"><span class="tag">Badges</span><span class="tag">README</span></div>
     </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/rss-builder/">Release Feed Builder</a></h3>
+      <p>Build custom RSS feeds for the technologies you care about. Get notified when new versions drop.</p>
+      <div class="tags"><span class="tag">RSS</span><span class="tag">Feeds</span></div>
+    </div>
   </div>
 
-  <h2 class="section-title">Node.js & JavaScript</h2>
-  <p class="section-sub">Audit and optimize your JavaScript projects</p>
+  <!-- LANGUAGE & PACKAGE TOOLS -->
+  <h2 class="section-title">Language &amp; Package Tools</h2>
+  <p class="section-sub">Audit and optimize your projects by ecosystem</p>
   <div class="tools-grid">
     <div class="tool-card">
       <h3><a href="https://releaserun.com/tools/package-audit/">package.json Deep Audit</a></h3>
-      <p>Audit dependencies for license conflicts, bundle bloat, deprecated packages, and security risks. 100+ packages in database.</p>
+      <p>Audit npm dependencies for license conflicts, bundle bloat, deprecated packages, and security risks.</p>
       <div class="tags"><span class="tag">npm</span><span class="tag tag-security">Security</span></div>
     </div>
     <div class="tool-card">
-      <h3><a href="https://releaserun.com/tools/ssl-config-generator/">SSL/TLS Config Generator</a>
-            <a href="https://releaserun.com/tools/jwt-decoder/?utm_source=github&utm_medium=tools_page" class="tool-card">
-                <span class="tool-icon">🔑</span>
-                <div>
-                    <strong>JWT Decoder & Inspector</strong>
-                    <p>Decode, inspect, and validate JSON Web Tokens with security analysis. Client-side only.</p>
-                </div>
-            </a></h3>
-      <p>Generate secure SSL/TLS configs for Nginx, Apache, Caddy, HAProxy, and Traefik. Based on Mozilla guidelines.</p>
-      <div class="tags"><span class="tag tag-security">Security</span><span class="tag tag-devops">Web Servers</span></div>
+      <h3><a href="https://releaserun.com/tools/go-module-checker/">Go Module Health Check</a></h3>
+      <p>Analyze go.mod for outdated, deprecated, or vulnerable modules. Get a health grade for your Go project.</p>
+      <div class="tags"><span class="tag">Go</span><span class="tag">Modules</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/dep-eol-scanner/">Dependency EOL Scanner</a></h3>
+      <p>Scan your dependency files for end-of-life runtimes and frameworks that no longer receive security patches.</p>
+      <div class="tags"><span class="tag">Dependencies</span><span class="tag">EOL</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/semver-checker/">SemVer Compatibility Checker</a></h3>
+      <p>Check if version ranges are compatible. Validate semver constraints and find potential conflicts.</p>
+      <div class="tags"><span class="tag">SemVer</span><span class="tag">Versions</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/pg-extensions/">PostgreSQL Extension Matrix</a></h3>
+      <p>Check PostgreSQL extension compatibility across versions. Find which extensions work with your PG release.</p>
+      <div class="tags"><span class="tag">PostgreSQL</span><span class="tag">Extensions</span></div>
+    </div>
+  </div>
+
+  <!-- UTILITY TOOLS -->
+  <h2 class="section-title">Utility Tools</h2>
+  <p class="section-sub">Everyday developer utilities</p>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/yaml-json-converter/">YAML ↔ JSON Converter</a></h3>
+      <p>Convert, validate, and format YAML and JSON with real-time preview and presets for K8s, Docker, and more.</p>
+      <div class="tags"><span class="tag tag-util">Utility</span><span class="tag">YAML</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/regex-tester/">Regex Tester &amp; Debugger</a></h3>
+      <p>Test regex patterns with live highlighting, substitution mode, code generation, and cheat sheet.</p>
+      <div class="tags"><span class="tag tag-util">Utility</span><span class="tag">Regex</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/cidr-calculator/">CIDR / Subnet Calculator</a></h3>
+      <p>Calculate subnets, split networks, and visualize IP address allocation for IPv4 and IPv6.</p>
+      <div class="tags"><span class="tag tag-util">Utility</span><span class="tag">Networking</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/dns-auditor/">DNS Record Auditor</a></h3>
+      <p>Audit DNS records for any domain. Check A, AAAA, CNAME, MX, TXT, NS, and more.</p>
+      <div class="tags"><span class="tag tag-util">Utility</span><span class="tag">DNS</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/tech-detector/">Technology Detector</a></h3>
+      <p>Detect technologies used by any website. Frameworks, CMS, CDN, analytics, and server software.</p>
+      <div class="tags"><span class="tag tag-util">Utility</span><span class="tag">Detection</span></div>
+    </div>
+    <div class="tool-card">
+      <h3><a href="https://releaserun.com/tools/repo-health/">Repository Health Report</a></h3>
+      <p>Analyze any GitHub repository for maintenance health. Activity, issues, PRs, and community signals.</p>
+      <div class="tags"><span class="tag tag-util">Utility</span><span class="tag">GitHub</span></div>
     </div>
   </div>
 
   <p style="text-align:center;padding:32px 0;color:var(--muted);">
-    <a href="https://releaserun.com/tools/">View all 35+ tools on ReleaseRun →</a>
+    <a href="https://releaserun.com/tools/">View all 50+ tools on ReleaseRun →</a>
   </p>
 </div>
 
 <footer>
   <div class="container">
-    <p>All tools are free to use. <a href="https://releaserun.com">ReleaseRun</a> — Stop reading changelogs. Start understanding releases.</p>
+    <p>All tools are free to use. No signup required. <a href="https://releaserun.com">ReleaseRun</a> — Stop reading changelogs. Start understanding releases.</p>
     <p style="margin-top:8px"><a href="https://releaserun.github.io">Home</a> · <a href="https://releaserun.github.io/embed.html">Embeddable Widgets</a> · <a href="https://github.com/Releaserun/releaserun-cli">CLI on GitHub</a> · <a href="https://www.npmjs.com/package/releaserun">npm</a></p>
   </div>
 </footer>
