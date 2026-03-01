@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReleaseRun Badge API — Live Version & EOL Badges for READMEs</title>
+  <meta name="description" content="Free, auto-updating badges for GitHub READMEs. Show real-time version status, end-of-life dates, CVE counts, and health scores for 300+ technologies.">
+  <link rel="canonical" href="https://releaserun.github.io/badges">
+  <style>
+    :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; --orange: #d29922; --red: #f85149; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); }
+    header h1 { font-size: 2em; margin-bottom: 8px; }
+    header h1 span { color: var(--accent); }
+    header p { color: var(--muted); font-size: 1.1em; max-width: 650px; }
+    nav.breadcrumb { margin-bottom: 16px; font-size: 0.9em; color: var(--muted); }
+    nav.breadcrumb a { color: var(--accent); }
+    section { padding: 36px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+    h2 { font-size: 1.5em; margin-bottom: 16px; }
+    h3 { font-size: 1.15em; margin: 20px 0 10px; color: var(--accent); }
+    p { margin-bottom: 12px; }
+    .badge-row { display: flex; align-items: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+    .badge-row img { height: 20px; }
+    code { background: rgba(110,118,129,0.2); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; font-family: 'SF Mono', Consolas, monospace; }
+    pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; overflow-x: auto; margin: 12px 0 20px; font-size: 0.85em; line-height: 1.5; }
+    pre code { background: none; padding: 0; }
+    .type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
+    .type-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .type-card h4 { font-size: 1em; margin-bottom: 6px; }
+    .type-card p { color: var(--muted); font-size: 0.85em; margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9em; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
+    .tag { display: inline-block; font-size: 0.75em; padding: 2px 8px; border-radius: 12px; }
+    .tag-free { background: rgba(63,185,80,0.15); color: var(--green); }
+    .note { background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.3); border-radius: 8px; padding: 14px 16px; margin: 16px 0; font-size: 0.9em; }
+    .note strong { color: var(--accent); }
+    .warn { background: rgba(210,153,34,0.1); border: 1px solid rgba(210,153,34,0.3); border-radius: 8px; padding: 14px 16px; margin: 16px 0; font-size: 0.9em; }
+    .warn strong { color: var(--orange); }
+    footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85em; }
+    footer a { color: var(--accent); }
+    @media (max-width: 600px) { .type-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="breadcrumb"><a href="https://releaserun.github.io">ReleaseRun</a> / Badge API</nav>
+    <h1>Badge <span>API</span></h1>
+    <p>Auto-updating SVG badges for GitHub READMEs, docs, and dashboards. Real-time data for 300+ technologies. Free, no signup, no API key.</p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>Quick Start</h2>
+    <p>Drop a badge into any Markdown file. It updates automatically.</p>
+    <pre><code>![Python EOL](https://img.releaserun.com/badge/eol/python.svg)
+![Node.js Version](https://img.releaserun.com/badge/v/nodejs.svg)
+![Kubernetes Health](https://img.releaserun.com/badge/health/kubernetes.svg)</code></pre>
+
+    <div class="badge-row">
+      <img src="https://img.releaserun.com/badge/eol/python.svg" alt="Python EOL badge">
+      <img src="https://img.releaserun.com/badge/v/nodejs.svg" alt="Node.js version badge">
+      <img src="https://img.releaserun.com/badge/health/kubernetes.svg" alt="Kubernetes health badge">
+    </div>
+
+    <h3>URL Format</h3>
+    <pre><code>https://img.releaserun.com/badge/{type}/{product}.svg</code></pre>
+    <p>The <code>.svg</code> extension is required. All badges return SVG with proper CORS headers for embedding anywhere.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Badge Types</h2>
+    <div class="type-grid">
+
+      <div class="type-card">
+        <h4>🟢 Health</h4>
+        <p>Overall release health score based on version age, CVE count, and EOL proximity.</p>
+        <div class="badge-row"><img src="https://img.releaserun.com/badge/health/react.svg" alt="React health"></div>
+        <code>/badge/health/{product}.svg</code>
+      </div>
+
+      <div class="type-card">
+        <h4>📅 End of Life</h4>
+        <p>Shows EOL date and how long until support ends. Turns red when EOL is approaching.</p>
+        <div class="badge-row"><img src="https://img.releaserun.com/badge/eol/python.svg" alt="Python EOL"></div>
+        <code>/badge/eol/{product}.svg</code>
+      </div>
+
+      <div class="type-card">
+        <h4>🏷️ Version</h4>
+        <p>Latest stable version number. Updates automatically on new releases.</p>
+        <div class="badge-row"><img src="https://img.releaserun.com/badge/v/go.svg" alt="Go version"></div>
+        <code>/badge/v/{product}.svg</code>
+      </div>
+
+      <div class="type-card">
+        <h4>🛡️ CVE Count</h4>
+        <p>Known CVE count for the latest version. Color-coded by severity.</p>
+        <div class="badge-row"><img src="https://img.releaserun.com/badge/cve/docker-engine.svg" alt="Docker CVE"></div>
+        <code>/badge/cve/{product}.svg</code>
+      </div>
+
+      <div class="type-card">
+        <h4>☁️ Cloud</h4>
+        <p>Cloud provider support status for major platforms.</p>
+        <div class="badge-row"><img src="https://img.releaserun.com/badge/cloud/kubernetes.svg" alt="K8s cloud"></div>
+        <code>/badge/cloud/{product}.svg</code>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Supported Technologies</h2>
+    <p>300+ products supported. Here are the most popular ones:</p>
+    <table>
+      <thead>
+        <tr><th>Product Slug</th><th>Technology</th><th>Types Available</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>python</code></td><td>Python</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>kubernetes</code></td><td>Kubernetes</td><td>health, eol, v, cve, cloud</td></tr>
+        <tr><td><code>nodejs</code></td><td>Node.js</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>go</code></td><td>Go</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>rust</code></td><td>Rust</td><td>health, v</td></tr>
+        <tr><td><code>docker-engine</code></td><td>Docker Engine</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>react</code></td><td>React</td><td>health, v</td></tr>
+        <tr><td><code>postgresql</code></td><td>PostgreSQL</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>ruby</code></td><td>Ruby</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>php</code></td><td>PHP</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>dotnet</code></td><td>.NET</td><td>health, eol, v</td></tr>
+        <tr><td><code>terraform</code></td><td>Terraform</td><td>health, v</td></tr>
+        <tr><td><code>redis</code></td><td>Redis</td><td>health, eol, v</td></tr>
+        <tr><td><code>nginx</code></td><td>Nginx</td><td>health, eol, v</td></tr>
+        <tr><td><code>mysql</code></td><td>MySQL</td><td>health, eol, v, cve</td></tr>
+        <tr><td><code>mariadb</code></td><td>MariaDB</td><td>health, eol, v</td></tr>
+        <tr><td><code>java</code></td><td>Java (OpenJDK)</td><td>health, eol, v</td></tr>
+        <tr><td><code>typescript</code></td><td>TypeScript</td><td>health, v</td></tr>
+        <tr><td><code>angular</code></td><td>Angular</td><td>health, eol, v</td></tr>
+        <tr><td><code>vue</code></td><td>Vue.js</td><td>health, v</td></tr>
+      </tbody>
+    </table>
+    <p>For the full list of 300+ supported products, visit the <a href="https://releaserun.com/tools/badge-generator/">Badge Generator</a> tool.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Usage Examples</h2>
+
+    <h3>GitHub README (Markdown)</h3>
+    <pre><code># My Project
+
+![Python](https://img.releaserun.com/badge/v/python.svg)
+![Node.js](https://img.releaserun.com/badge/v/nodejs.svg)
+![Docker](https://img.releaserun.com/badge/health/docker-engine.svg)
+
+Show your stack's live version status right in your README.</code></pre>
+
+    <h3>HTML (Docs, Dashboards)</h3>
+    <pre><code>&lt;img src="https://img.releaserun.com/badge/eol/python.svg" alt="Python EOL status"&gt;
+&lt;img src="https://img.releaserun.com/badge/cve/kubernetes.svg" alt="Kubernetes CVE count"&gt;</code></pre>
+
+    <h3>reStructuredText (Sphinx Docs)</h3>
+    <pre><code>.. image:: https://img.releaserun.com/badge/v/python.svg
+   :alt: Python version
+   :target: https://releaserun.com/python/</code></pre>
+
+    <h3>AsciiDoc</h3>
+    <pre><code>image:https://img.releaserun.com/badge/health/kubernetes.svg[Kubernetes Health, link="https://releaserun.com/kubernetes/"]</code></pre>
+
+    <h3>Shields.io Style Combo</h3>
+    <p>Combine ReleaseRun badges with shields.io for a consistent look:</p>
+    <pre><code>[![Build](https://img.shields.io/github/actions/workflow/status/org/repo/ci.yml)](...)
+[![Python](https://img.releaserun.com/badge/v/python.svg)](https://releaserun.com/python/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)</code></pre>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Technical Details</h2>
+
+    <h3>Rate Limits</h3>
+    <p>2,000 requests per minute. Badges are cached server-side (TTL varies by type). No API key or signup needed.</p>
+
+    <h3>Response Format</h3>
+    <p>All badges return <code>image/svg+xml</code> with proper cache headers and CORS (<code>Access-Control-Allow-Origin: *</code>).</p>
+
+    <h3>Data Sources</h3>
+    <p>Version and EOL data from <a href="https://endoflife.date">endoflife.date</a> API, enriched with CVE data from NVD and cloud provider compatibility matrices.</p>
+
+    <h3>Uptime</h3>
+    <p>Badge service runs on dedicated infrastructure. Current uptime &gt;99.9%.</p>
+
+    <div class="note">
+      <strong>Tip:</strong> Use badges with link targets to create clickable status indicators. Wrap the image in a link to the relevant <a href="https://releaserun.com">ReleaseRun</a> hub page for full release details.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>GitHub Action</h2>
+    <p>Automate version checks in your CI pipeline with the <a href="https://github.com/Releaserun/releaserun-action">ReleaseRun GitHub Action</a>:</p>
+    <pre><code>- name: Check dependency versions
+  uses: Releaserun/releaserun-action@v1
+  with:
+    technologies: 'python,nodejs,kubernetes'
+    fail-on-eol: true</code></pre>
+    <p>The action checks your stack against live release data and can fail builds if you're running end-of-life versions.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>CLI Tool</h2>
+    <p>Check versions from the command line with <a href="https://www.npmjs.com/package/releaserun">releaserun CLI</a>:</p>
+    <pre><code>npx releaserun check python nodejs kubernetes
+npx releaserun scan ./package.json
+npx releaserun eol python 3.9</code></pre>
+    <p>Source: <a href="https://github.com/Releaserun/releaserun-cli">github.com/Releaserun/releaserun-cli</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>More Free Tools</h2>
+    <p>Badges are just one of 30+ free developer tools:</p>
+    <table>
+      <thead><tr><th>Tool</th><th>What It Does</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://releaserun.com/tools/dep-eol-scanner/">Dependency EOL Scanner</a></td><td>Paste package.json, requirements.txt, go.mod and get EOL status for every dependency</td></tr>
+        <tr><td><a href="https://releaserun.com/tools/vuln-scanner/">Vulnerability Scanner</a></td><td>Scan your stack for known CVEs with severity ratings</td></tr>
+        <tr><td><a href="https://releaserun.com/tools/k8s-deprecation-checker/">K8s Deprecation Checker</a></td><td>Paste a Kubernetes manifest and find deprecated APIs before upgrading</td></tr>
+        <tr><td><a href="https://releaserun.com/tools/dockerfile-linter/">Dockerfile Linter</a></td><td>Security and best-practice linting for Dockerfiles</td></tr>
+        <tr><td><a href="https://releaserun.com/tools/stack-health/">Stack Health Scorecard</a></td><td>Get a health score across your entire technology stack</td></tr>
+      </tbody>
+    </table>
+    <p><a href="https://releaserun.com/tools/">View all 30+ tools</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><a href="https://releaserun.github.io">ReleaseRun</a> · <a href="https://releaserun.com">releaserun.com</a> · <a href="https://github.com/Releaserun">GitHub</a></p>
+    <p style="margin-top: 8px;">Free and open. No signup required. No tracking.</p>
+  </div>
+</footer>
+
+</body>
+</html>
