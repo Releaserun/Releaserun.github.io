@@ -71,8 +71,23 @@
     </div>
 
     <h3>URL Format</h3>
-    <pre><code>https://img.releaserun.com/badge/{type}/{product}.svg</code></pre>
+    <pre><code>https://img.releaserun.com/badge/{type}/{product}.svg
+https://img.releaserun.com/badge/{type}/{product}/{version}.svg</code></pre>
     <p>The <code>.svg</code> extension is required. All badges return SVG with proper CORS headers for embedding anywhere.</p>
+
+    <h3>Version-Specific Badges <span class="tag tag-free">NEW</span></h3>
+    <p>Pin badges to the exact version your project uses. Much more useful than generic "latest version" badges.</p>
+    <pre><code>![Node.js 22](https://img.releaserun.com/badge/health/nodejs/22.svg)
+![Python 3.12](https://img.releaserun.com/badge/health/python/3.12.svg)
+![PostgreSQL 16](https://img.releaserun.com/badge/health/postgresql/16.svg)</code></pre>
+    <div class="badge-row">
+      <img src="https://img.releaserun.com/badge/health/nodejs/22.svg" alt="Node.js 22 health">
+      <img src="https://img.releaserun.com/badge/health/python/3.12.svg" alt="Python 3.12 health">
+      <img src="https://img.releaserun.com/badge/health/postgresql/16.svg" alt="PostgreSQL 16 health">
+    </div>
+    <p>Or generate them automatically with the CLI:</p>
+    <pre><code>npx releaserun badges       # scan project, copy badge markdown to clipboard
+npx releaserun readme --write  # inject badges into your README automatically</code></pre>
   </div>
 </section>
 
@@ -159,14 +174,23 @@
   <div class="container">
     <h2>Usage Examples</h2>
 
-    <h3>GitHub README (Markdown)</h3>
+    <h3>Version-Specific README (Recommended)</h3>
+    <pre><code># My Project
+
+[![Node.js 22 Health](https://img.releaserun.com/badge/health/nodejs/22.svg)](https://releaserun.com/nodejs/22/)
+[![Python 3.12 Health](https://img.releaserun.com/badge/health/python/3.12.svg)](https://releaserun.com/python/3.12/)
+[![PostgreSQL 16 Health](https://img.releaserun.com/badge/health/postgresql/16.svg)](https://releaserun.com/postgresql/16/)
+
+Badges show health grades for the versions YOUR project actually uses.</code></pre>
+
+    <h3>Generic Badges</h3>
     <pre><code># My Project
 
 ![Python](https://img.releaserun.com/badge/v/python.svg)
 ![Node.js](https://img.releaserun.com/badge/v/nodejs.svg)
 ![Docker](https://img.releaserun.com/badge/health/docker-engine.svg)
 
-Show your stack's live version status right in your README.</code></pre>
+Show the latest stable version across the ecosystem.</code></pre>
 
     <h3>HTML (Docs, Dashboards)</h3>
     <pre><code>&lt;img src="https://img.releaserun.com/badge/eol/python.svg" alt="Python EOL status"&gt;
@@ -212,25 +236,40 @@ Show your stack's live version status right in your README.</code></pre>
 
 <section>
   <div class="container">
-    <h2>GitHub Action</h2>
+    <h2>GitHub Action <span class="tag tag-free">v2</span></h2>
     <p>Automate version checks in your CI pipeline with the <a href="https://github.com/Releaserun/releaserun-action">ReleaseRun GitHub Action</a>:</p>
-    <pre><code>- name: Check dependency versions
-  uses: Releaserun/releaserun-action@v1
+    <pre><code>- name: Check stack health
+  uses: Releaserun/releaserun-action@v2
   with:
-    technologies: 'python,nodejs,kubernetes'
-    fail-on-eol: true</code></pre>
-    <p>The action checks your stack against live release data and can fail builds if you're running end-of-life versions.</p>
+    path: '.'
+    comment: 'true'
+    fail-on: 'F'</code></pre>
+    <p>v2 detects versions from your project files (package.json, Dockerfile, go.mod, requirements.txt, Cargo.toml, docker-compose.yml) and generates version-specific badge markdown in PR comments.</p>
+
+    <h3>Auto-Update README Badges</h3>
+    <pre><code>- name: Update README badges
+  uses: Releaserun/releaserun-action@v2
+  with:
+    path: '.'
+    update-readme: 'true'</code></pre>
+    <p>Automatically commits updated version-specific badges to your README on every PR.</p>
   </div>
 </section>
 
 <section>
   <div class="container">
-    <h2>CLI Tool</h2>
-    <p>Check versions from the command line with <a href="https://www.npmjs.com/package/releaserun">releaserun CLI</a>:</p>
-    <pre><code>npx releaserun check python nodejs kubernetes
-npx releaserun scan ./package.json
-npx releaserun eol python 3.9</code></pre>
-    <p>Source: <a href="https://github.com/Releaserun/releaserun-cli">github.com/Releaserun/releaserun-cli</a></p>
+    <h2>CLI Tool <span class="tag tag-free">v1.2</span></h2>
+    <p>Scan any project directory and get version-specific badges instantly:</p>
+    <pre><code># Scan project and generate badge markdown
+npx releaserun badges
+
+# Inject badges into your README (between markers)
+npx releaserun readme --write
+
+# Full health check with grades
+npx releaserun check</code></pre>
+    <p>The CLI reads package.json, Dockerfile, go.mod, requirements.txt, Cargo.toml, composer.json, Gemfile, pom.xml, docker-compose.yml, .nvmrc, .python-version, and .tool-versions to detect what your project actually uses.</p>
+    <p>Source: <a href="https://github.com/Releaserun/releaserun-cli">github.com/Releaserun/releaserun-cli</a> | <a href="https://www.npmjs.com/package/releaserun">npm</a></p>
   </div>
 </section>
 
