@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Release Health Card — ReleaseRun</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: transparent; }
+    .card { border: 1px solid #30363d; border-radius: 10px; overflow: hidden; max-width: 360px; background: #0d1117; color: #e6edf3; }
+    .card.light { background: #fff; color: #1f2328; border-color: #d0d7de; }
+    .header { padding: 12px 16px; border-bottom: 1px solid #30363d; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .light .header { border-color: #d0d7de; }
+    .title { font-size: 0.98em; font-weight: 600; }
+    .cycle { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.82em; color: #8b949e; }
+    .light .cycle { color: #656d76; }
+    .status { padding: 4px 9px; border-radius: 999px; font-size: 0.72em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .status-ok { background: rgba(63,185,80,0.18); color: #3fb950; }
+    .status-warn { background: rgba(210,153,34,0.18); color: #d29922; }
+    .status-eol { background: rgba(248,81,73,0.18); color: #f85149; }
+    .status-unknown { background: rgba(139,148,158,0.18); color: #8b949e; }
+    .body { padding: 14px 16px; }
+    .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .days { font-size: 2em; line-height: 1; font-weight: 700; }
+    .days-label { color: #8b949e; font-size: 0.76em; margin-top: 4px; }
+    .light .days-label { color: #656d76; }
+    .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .meta-item { background: #161b22; border-radius: 8px; padding: 10px; }
+    .light .meta-item { background: #f6f8fa; }
+    .meta-key { font-size: 0.64em; text-transform: uppercase; letter-spacing: 0.05em; color: #8b949e; margin-bottom: 3px; }
+    .light .meta-key { color: #656d76; }
+    .meta-val { font-size: 0.9em; font-weight: 600; }
+    .badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .badge-row img { height: 20px; border-radius: 3px; }
+    .cta { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .cta a { color: #58a6ff; font-size: 0.85em; text-decoration: none; }
+    .cta a:hover { text-decoration: underline; }
+    .powered { color: #8b949e; font-size: 0.7em; }
+    .light .powered { color: #656d76; }
+    .loading, .error { padding: 28px 16px; text-align: center; color: #8b949e; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card"><div class="loading">Loading release health...</div></div>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const product = (params.get('product') || 'nodejs').trim();
+      const cycle = (params.get('cycle') || '').trim();
+      const theme = (params.get('theme') || 'dark').trim();
+      const ctaHref = params.get('link') || 'https://releaserun.com/tools/eol-timeline/';
+      const ctaText = params.get('cta') || 'View full timeline';
+      const card = document.getElementById('card');
+      if (theme === 'light') card.classList.add('light');
+
+      const titleMap = {
+        nodejs: 'Node.js', python: 'Python', go: 'Go', rust: 'Rust', ruby: 'Ruby', php: 'PHP',
+        kubernetes: 'Kubernetes', postgresql: 'PostgreSQL', docker: 'Docker', 'docker-engine': 'Docker Engine'
+      };
+      const prettyName = titleMap[product] || product.replace(/(^|[-_])(\w)/g, (_, __, c) => ' ' + c.toUpperCase()).trim();
+
+      function parseDate(value) {
+        if (!value || value === false || value === true) return null;
+        const d = new Date(value);
+        return isNaN(d.getTime()) ? null : d;
+      }
+
+      function daysUntil(date) {
+        if (!date) return null;
+        const ms = date.getTime() - Date.now();
+        return Math.ceil(ms / 86400000);
+      }
+
+      function statusFrom(item) {
+        const eolDate = parseDate(item.eol);
+        const supportDate = parseDate(item.support);
+        const remaining = daysUntil(eolDate || supportDate);
+        if (remaining === null) return { cls: 'unknown', label: 'Unknown', days: '—', daysLabel: 'No support window data' };
+        if (remaining < 0) return { cls: 'eol', label: 'EOL', days: Math.abs(remaining), daysLabel: 'days past EOL' };
+        if (remaining <= 120) return { cls: 'warn', label: 'Risk', days: remaining, daysLabel: 'days to EOL' };
+        return { cls: 'ok', label: 'Supported', days: remaining, daysLabel: 'days to EOL' };
+      }
+
+      fetch(`https://endoflife.date/api/${product}.json`)
+        .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
+        .then(data => {
+          const item = cycle ? data.find(x => String(x.cycle) === cycle) : data[0];
+          if (!item) throw new Error('Cycle not found');
+          const st = statusFrom(item);
+          const latest = item.latest || '—';
+          const eol = (item.eol && item.eol !== true && item.eol !== false) ? item.eol : (item.eol === true ? 'Yes' : 'Unknown');
+          const releaseDate = item.releaseDate || '—';
+          const cycleLabel = item.cycle || cycle || 'latest';
+
+          card.innerHTML = `
+            <div class="header">
+              <div>
+                <div class="title">${prettyName} release health</div>
+                <div class="cycle">cycle ${cycleLabel}</div>
+              </div>
+              <span class="status status-${st.cls}">${st.label}</span>
+            </div>
+            <div class="body">
+              <div class="hero">
+                <div>
+                  <div class="days">${st.days}</div>
+                  <div class="days-label">${st.daysLabel}</div>
+                </div>
+                <div class="badge-row">
+                  <img src="https://img.releaserun.com/badge/health/${product}.svg" alt="${prettyName} health badge">
+                  <img src="https://img.releaserun.com/badge/eol/${product}.svg" alt="${prettyName} eol badge">
+                  <img src="https://img.releaserun.com/badge/v/${product}.svg" alt="${prettyName} version badge">
+                </div>
+              </div>
+              <div class="meta">
+                <div class="meta-item">
+                  <div class="meta-key">Latest</div>
+                  <div class="meta-val">${latest}</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-key">EOL date</div>
+                  <div class="meta-val">${eol}</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-key">Released</div>
+                  <div class="meta-val">${releaseDate}</div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-key">Product</div>
+                  <div class="meta-val">${prettyName}</div>
+                </div>
+              </div>
+              <div class="cta">
+                <a href="${ctaHref}" target="_blank" rel="noopener noreferrer">${ctaText}</a>
+                <span class="powered">Powered by ReleaseRun</span>
+              </div>
+            </div>`;
+        })
+        .catch(err => {
+          card.innerHTML = `<div class="error">Could not load release data for <strong>${prettyName}</strong>${cycle ? ` cycle ${cycle}` : ''}.</div>`;
+        });
+    })();
+  </script>
+</body>
+</html>
