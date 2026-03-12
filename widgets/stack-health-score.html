@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack Health Score — ReleaseRun</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: transparent; }
+    .card { border: 1px solid #30363d; border-radius: 10px; overflow: hidden; max-width: 420px; background: #0d1117; color: #e6edf3; }
+    .card.light { background: #fff; color: #1f2328; border-color: #d0d7de; }
+    .header { padding: 14px 16px; border-bottom: 1px solid #30363d; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .light .header { border-color: #d0d7de; }
+    .title { font-weight: 600; font-size: 0.98em; }
+    .subtitle { color:#8b949e; font-size:0.78em; margin-top:3px; }
+    .light .subtitle { color:#656d76; }
+    .grade { min-width: 56px; text-align:center; padding: 8px 10px; border-radius: 8px; font-size: 1.2em; font-weight: 800; }
+    .grade-a { background: rgba(63,185,80,0.20); color:#3fb950; }
+    .grade-b { background: rgba(86,211,100,0.16); color:#56d364; }
+    .grade-c { background: rgba(210,153,34,0.18); color:#d29922; }
+    .grade-d { background: rgba(248,81,73,0.14); color:#ff7b72; }
+    .grade-f { background: rgba(248,81,73,0.22); color:#f85149; }
+    .body { padding: 14px 16px; }
+    .score-row { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; margin-bottom: 14px; }
+    .score { font-size: 2.2em; font-weight: 800; line-height: 1; }
+    .score-label { color:#8b949e; font-size:0.76em; margin-top:4px; }
+    .light .score-label { color:#656d76; }
+    .counts { display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; margin-bottom: 12px; }
+    .count { background:#161b22; border-radius:8px; padding:10px 8px; text-align:center; }
+    .light .count { background:#f6f8fa; }
+    .count .num { font-size:1.05em; font-weight:700; }
+    .count .lbl { font-size:0.64em; color:#8b949e; text-transform:uppercase; letter-spacing:0.05em; margin-top:3px; }
+    .light .count .lbl { color:#656d76; }
+    .bar { display:flex; height:10px; border-radius:999px; overflow:hidden; background:#21262d; margin-bottom:10px; }
+    .light .bar { background:#eaeef2; }
+    .seg-ok { background:#3fb950; }
+    .seg-warn { background:#d29922; }
+    .seg-eol { background:#f85149; }
+    .seg-unknown { background:#8b949e; }
+    .stack-list { color:#8b949e; font-size:0.76em; line-height:1.45; margin-bottom: 12px; }
+    .light .stack-list { color:#656d76; }
+    .footer { padding: 10px 16px; border-top:1px solid #30363d; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .light .footer { border-color:#d0d7de; }
+    .footer a { color:#58a6ff; font-size:0.82em; text-decoration:none; }
+    .footer a:hover { text-decoration:underline; }
+    .powered { color:#8b949e; font-size:0.7em; }
+    .light .powered { color:#656d76; }
+    .loading, .error { padding: 28px 16px; text-align:center; color:#8b949e; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card"><div class="loading">Loading stack score...</div></div>
+  <script>
+    (function(){
+      const params = new URLSearchParams(window.location.search);
+      const stack = (params.get('stack') || 'nodejs,python,postgresql,docker-engine,kubernetes').split(',').map(s => s.trim()).filter(Boolean);
+      const theme = params.get('theme') || 'dark';
+      const link = params.get('link') || 'https://releaserun.com/tools/eol-timeline/';
+      const cta = params.get('cta') || 'Open stack timeline';
+      const card = document.getElementById('card');
+      if (theme === 'light') card.classList.add('light');
+
+      const names = {
+        nodejs:'Node.js', python:'Python', postgresql:'PostgreSQL', kubernetes:'Kubernetes', go:'Go', rust:'Rust', ruby:'Ruby', php:'PHP', 'docker-engine':'Docker Engine', docker:'Docker'
+      };
+
+      function parseDate(v){ if(!v || v===true || v===false) return null; const d=new Date(v); return isNaN(d.getTime())?null:d; }
+      function classify(item){
+        const d = parseDate(item.eol) || parseDate(item.support);
+        if(!d) return 'unknown';
+        const days = Math.ceil((d.getTime() - Date.now())/86400000);
+        if(days < 0) return 'eol';
+        if(days <= 120) return 'warn';
+        return 'ok';
+      }
+      function computeGrade(score){
+        if(score >= 90) return 'A';
+        if(score >= 75) return 'B';
+        if(score >= 60) return 'C';
+        if(score >= 40) return 'D';
+        return 'F';
+      }
+
+      Promise.allSettled(
+        stack.map(product => fetch(`https://endoflife.date/api/${product}.json`)
+          .then(r => { if(!r.ok) throw new Error('not found'); return r.json(); })
+          .then(data => ({product, item:data[0], status: classify(data[0])}))
+          .catch(() => ({product, item:null, status:'unknown'}))
+        )
+      ).then(results => {
+        const items = results.map(r => r.value);
+        let ok=0,warn=0,eol=0,unknown=0;
+        items.forEach(x => { if(x.status==='ok') ok++; else if(x.status==='warn') warn++; else if(x.status==='eol') eol++; else unknown++; });
+        const total = items.length || 1;
+        const score = Math.max(0, Math.round(100 - (warn*15) - (eol*35) - (unknown*10)));
+        const grade = computeGrade(score);
+        const gradeClass = `grade-${grade.toLowerCase()}`;
+        const stackNames = items.map(x => names[x.product] || x.product).join(', ');
+        const pct = n => Math.round((n/total)*1000)/10;
+
+        card.innerHTML = `
+          <div class="header">
+            <div>
+              <div class="title">Stack health score</div>
+              <div class="subtitle">${total} tracked technologies</div>
+            </div>
+            <div class="grade ${gradeClass}">${grade}</div>
+          </div>
+          <div class="body">
+            <div class="score-row">
+              <div>
+                <div class="score">${score}</div>
+                <div class="score-label">weighted score out of 100</div>
+              </div>
+              <div class="badge-wrap">
+                <img src="https://img.releaserun.com/badge/health/nodejs.svg" alt="ReleaseRun badge" style="height:20px;border-radius:3px;opacity:.0">
+              </div>
+            </div>
+            <div class="counts">
+              <div class="count"><div class="num">${ok}</div><div class="lbl">Supported</div></div>
+              <div class="count"><div class="num">${warn}</div><div class="lbl">Risk</div></div>
+              <div class="count"><div class="num">${eol}</div><div class="lbl">EOL</div></div>
+              <div class="count"><div class="num">${unknown}</div><div class="lbl">Unknown</div></div>
+            </div>
+            <div class="bar">
+              <div class="seg-ok" style="width:${pct(ok)}%"></div>
+              <div class="seg-warn" style="width:${pct(warn)}%"></div>
+              <div class="seg-eol" style="width:${pct(eol)}%"></div>
+              <div class="seg-unknown" style="width:${pct(unknown)}%"></div>
+            </div>
+            <div class="stack-list">${stackNames}</div>
+          </div>
+          <div class="footer">
+            <a href="${link}" target="_blank" rel="noopener noreferrer">${cta}</a>
+            <span class="powered">Powered by ReleaseRun</span>
+          </div>`;
+      }).catch(() => {
+        card.innerHTML = '<div class="error">Could not load stack data.</div>';
+      });
+    })();
+  </script>
+</body>
+</html>
