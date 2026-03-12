@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes Deprecated APIs Cheat Sheet — ReleaseRun</title>
+<meta name="description" content="Complete reference of deprecated and removed Kubernetes API versions from K8s 1.16 to 1.32+. Find what to migrate to and when.">
+<meta property="og:title" content="Kubernetes Deprecated APIs Cheat Sheet">
+<meta property="og:description" content="Quick reference: every deprecated K8s API, when it was removed, and what to use instead.">
+<meta property="og:url" content="https://releaserun.github.io/k8s-deprecated-apis.html">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+  header { background: #1a1d27; border-bottom: 1px solid #2d3748; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #e2e8f0; font-weight: 700; font-size: 1.1rem; }
+  .logo span { color: #6366f1; }
+  .header-cta { background: #6366f1; color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; transition: background 0.2s; }
+  .header-cta:hover { background: #4f46e5; }
+  .hero { text-align: center; padding: 40px 24px 24px; max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 2rem; font-weight: 800; color: #f1f5f9; margin-bottom: 8px; }
+  .subtitle { color: #94a3b8; font-size: 1rem; margin-bottom: 20px; }
+  .search-bar { display: flex; max-width: 480px; margin: 0 auto 8px; }
+  .search-bar input { flex: 1; padding: 10px 14px; background: #1a1d27; border: 1px solid #2d3748; border-right: none; border-radius: 6px 0 0 6px; color: #e2e8f0; font-size: 0.9rem; outline: none; }
+  .search-bar input:focus { border-color: #6366f1; }
+  .search-bar input::placeholder { color: #475569; }
+  .filter-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 12px 0 24px; }
+  .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #2d3748; background: transparent; color: #94a3b8; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+  .filter-btn:hover, .filter-btn.active { background: #6366f1; border-color: #6366f1; color: white; }
+  .main { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+  .stats { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+  .stat { background: #1a1d27; border: 1px solid #2d3748; border-radius: 8px; padding: 12px 20px; text-align: center; }
+  .stat-num { font-size: 1.5rem; font-weight: 700; color: #6366f1; }
+  .stat-label { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; background: #1a1d27; border-radius: 10px; overflow: hidden; border: 1px solid #2d3748; font-size: 0.875rem; }
+  thead { background: #0f1117; }
+  th { padding: 12px 16px; text-align: left; color: #64748b; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #2d3748; }
+  td { padding: 11px 16px; border-bottom: 1px solid #1e2433; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #1e2433; }
+  .api { font-family: 'SF Mono', 'Fira Code', monospace; color: #f87171; font-size: 0.82rem; }
+  .new-api { font-family: 'SF Mono', 'Fira Code', monospace; color: #4ade80; font-size: 0.82rem; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; }
+  .badge-removed { background: #7f1d1d; color: #fca5a5; }
+  .badge-deprecated { background: #78350f; color: #fcd34d; }
+  .kind { color: #818cf8; font-size: 0.8rem; }
+  .removed-col { white-space: nowrap; }
+  .empty { display: none; padding: 48px; text-align: center; color: #475569; }
+  .empty.show { display: block; }
+  .section-label { background: #0f1117; padding: 8px 16px; color: #475569; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid #2d3748; }
+  .cta-strip { background: linear-gradient(135deg, #1e1b4b 0%, #1a1d27 100%); border: 1px solid #3730a3; border-radius: 10px; padding: 24px; margin-bottom: 24px; text-align: center; }
+  .cta-strip h3 { color: #a5b4fc; font-size: 1rem; margin-bottom: 6px; }
+  .cta-strip p { color: #64748b; font-size: 0.875rem; margin-bottom: 14px; }
+  .cta-btn { display: inline-block; background: #6366f1; color: white; text-decoration: none; padding: 10px 22px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; transition: background 0.2s; }
+  .cta-btn:hover { background: #4f46e5; }
+  footer { text-align: center; padding: 24px; color: #475569; font-size: 0.8rem; border-top: 1px solid #1e2433; margin-top: 20px; }
+  footer a { color: #6366f1; text-decoration: none; }
+  @media (max-width: 700px) {
+    h1 { font-size: 1.4rem; }
+    td, th { padding: 9px 10px; }
+    .stats { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="https://releaserun.com"><span>Release</span>Run</a>
+  <a class="header-cta" href="https://releaserun.com/tools/k8s-deprecation-checker/" target="_blank">Check your manifests →</a>
+</header>
+
+<div class="hero">
+  <h1>Kubernetes Deprecated APIs</h1>
+  <p class="subtitle">Every deprecated and removed K8s API from 1.16 onwards — what was removed, when, and what to migrate to.</p>
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="Search by API, kind, or version..." oninput="filterTable()">
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" onclick="setFilter('removed', this)">Removed</button>
+    <button class="filter-btn" onclick="setFilter('deprecated', this)">Still deprecated</button>
+    <button class="filter-btn" onclick="setFilter('1.16', this)">1.16</button>
+    <button class="filter-btn" onclick="setFilter('1.22', this)">1.22</button>
+    <button class="filter-btn" onclick="setFilter('1.25', this)">1.25</button>
+    <button class="filter-btn" onclick="setFilter('1.26', this)">1.26</button>
+    <button class="filter-btn" onclick="setFilter('1.27', this)">1.27</button>
+    <button class="filter-btn" onclick="setFilter('1.29', this)">1.29</button>
+    <button class="filter-btn" onclick="setFilter('1.32', this)">1.32</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="total-count">50</div><div class="stat-label">Total deprecated APIs</div></div>
+    <div class="stat"><div class="stat-num" id="removed-count">48</div><div class="stat-label">Fully removed</div></div>
+    <div class="stat"><div class="stat-num">1.16–1.32</div><div class="stat-label">Version range covered</div></div>
+  </div>
+
+  <div class="cta-strip">
+    <h3>Got YAML files or Helm charts to check?</h3>
+    <p>Paste your Kubernetes manifests and get an instant deprecation report — no install needed.</p>
+    <a class="cta-btn" href="https://releaserun.com/tools/k8s-deprecation-checker/" target="_blank">Check my manifests for free</a>
+  </div>
+
+  <table id="apiTable">
+    <thead>
+      <tr>
+        <th>Deprecated API</th>
+        <th>Kind</th>
+        <th>Status</th>
+        <th>Removed in</th>
+        <th>Deprecated since</th>
+        <th>Use instead</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <div class="empty" id="empty-state">No matching APIs found.</div>
+</div>
+
+<footer>
+  <p>Maintained by <a href="https://releaserun.com" target="_blank">ReleaseRun</a> · <a href="https://releaserun.com/tools/k8s-deprecation-checker/" target="_blank">K8s Deprecation Checker</a> · <a href="https://releaserun.com/tools/" target="_blank">All tools</a> · Data sourced from <a href="https://kubernetes.io/docs/reference/using-api/deprecation-guide/" target="_blank">kubernetes.io deprecation guide</a></p>
+</footer>
+
+<script>
+const APIS = [
+  // === REMOVED IN 1.16 ===
+  { api: "extensions/v1beta1", kind: "Deployment", status: "removed", removedIn: "1.16", deprecatedIn: "1.8", newApi: "apps/v1" },
+  { api: "extensions/v1beta1", kind: "DaemonSet", status: "removed", removedIn: "1.16", deprecatedIn: "1.8", newApi: "apps/v1" },
+  { api: "extensions/v1beta1", kind: "ReplicaSet", status: "removed", removedIn: "1.16", deprecatedIn: "1.8", newApi: "apps/v1" },
+  { api: "extensions/v1beta1", kind: "StatefulSet", status: "removed", removedIn: "1.16", deprecatedIn: "1.8", newApi: "apps/v1" },
+  { api: "extensions/v1beta1", kind: "NetworkPolicy", status: "removed", removedIn: "1.16", deprecatedIn: "1.8", newApi: "networking.k8s.io/v1" },
+  { api: "extensions/v1beta1", kind: "PodSecurityPolicy", status: "removed", removedIn: "1.16", deprecatedIn: "1.8", newApi: "policy/v1beta1 (removed 1.25)" },
+  { api: "apps/v1beta1", kind: "Deployment", status: "removed", removedIn: "1.16", deprecatedIn: "1.9", newApi: "apps/v1" },
+  { api: "apps/v1beta1", kind: "StatefulSet", status: "removed", removedIn: "1.16", deprecatedIn: "1.9", newApi: "apps/v1" },
+  { api: "apps/v1beta2", kind: "Deployment", status: "removed", removedIn: "1.16", deprecatedIn: "1.9", newApi: "apps/v1" },
+  { api: "apps/v1beta2", kind: "DaemonSet", status: "removed", removedIn: "1.16", deprecatedIn: "1.9", newApi: "apps/v1" },
+  { api: "apps/v1beta2", kind: "ReplicaSet", status: "removed", removedIn: "1.16", deprecatedIn: "1.9", newApi: "apps/v1" },
+  { api: "apps/v1beta2", kind: "StatefulSet", status: "removed", removedIn: "1.16", deprecatedIn: "1.9", newApi: "apps/v1" },
+
+  // === REMOVED IN 1.17 ===
+  { api: "rbac.authorization.k8s.io/v1beta1", kind: "ClusterRoleBinding", status: "removed", removedIn: "1.17", deprecatedIn: "1.8", newApi: "rbac.authorization.k8s.io/v1" },
+
+  // === REMOVED IN 1.22 ===
+  { api: "networking.k8s.io/v1beta1", kind: "Ingress", status: "removed", removedIn: "1.22", deprecatedIn: "1.14", newApi: "networking.k8s.io/v1" },
+  { api: "networking.k8s.io/v1beta1", kind: "IngressClass", status: "removed", removedIn: "1.22", deprecatedIn: "1.18", newApi: "networking.k8s.io/v1" },
+  { api: "extensions/v1beta1", kind: "Ingress", status: "removed", removedIn: "1.22", deprecatedIn: "1.14", newApi: "networking.k8s.io/v1" },
+  { api: "apiextensions.k8s.io/v1beta1", kind: "CustomResourceDefinition", status: "removed", removedIn: "1.22", deprecatedIn: "1.16", newApi: "apiextensions.k8s.io/v1" },
+  { api: "admissionregistration.k8s.io/v1beta1", kind: "MutatingWebhookConfiguration", status: "removed", removedIn: "1.22", deprecatedIn: "1.16", newApi: "admissionregistration.k8s.io/v1" },
+  { api: "admissionregistration.k8s.io/v1beta1", kind: "ValidatingWebhookConfiguration", status: "removed", removedIn: "1.22", deprecatedIn: "1.16", newApi: "admissionregistration.k8s.io/v1" },
+  { api: "rbac.authorization.k8s.io/v1beta1", kind: "ClusterRole", status: "removed", removedIn: "1.22", deprecatedIn: "1.17", newApi: "rbac.authorization.k8s.io/v1" },
+  { api: "rbac.authorization.k8s.io/v1beta1", kind: "Role", status: "removed", removedIn: "1.22", deprecatedIn: "1.17", newApi: "rbac.authorization.k8s.io/v1" },
+  { api: "rbac.authorization.k8s.io/v1beta1", kind: "RoleBinding", status: "removed", removedIn: "1.22", deprecatedIn: "1.17", newApi: "rbac.authorization.k8s.io/v1" },
+  { api: "certificates.k8s.io/v1beta1", kind: "CertificateSigningRequest", status: "removed", removedIn: "1.22", deprecatedIn: "1.18", newApi: "certificates.k8s.io/v1" },
+  { api: "authentication.k8s.io/v1beta1", kind: "TokenReview", status: "removed", removedIn: "1.22", deprecatedIn: "1.20", newApi: "authentication.k8s.io/v1" },
+  { api: "authorization.k8s.io/v1beta1", kind: "SubjectAccessReview", status: "removed", removedIn: "1.22", deprecatedIn: "1.20", newApi: "authorization.k8s.io/v1" },
+  { api: "rbac.authorization.k8s.io/v1alpha1", kind: "ClusterRole/Role/Binding", status: "removed", removedIn: "1.22", deprecatedIn: "1.17", newApi: "rbac.authorization.k8s.io/v1" },
+  { api: "coordination.k8s.io/v1beta1", kind: "Lease", status: "removed", removedIn: "1.22", deprecatedIn: "1.19", newApi: "coordination.k8s.io/v1" },
+
+  // === REMOVED IN 1.25 ===
+  { api: "policy/v1beta1", kind: "PodSecurityPolicy", status: "removed", removedIn: "1.25", deprecatedIn: "1.21", newApi: "Use Pod Security Admission (PSA)" },
+  { api: "policy/v1beta1", kind: "PodDisruptionBudget", status: "removed", removedIn: "1.25", deprecatedIn: "1.21", newApi: "policy/v1" },
+  { api: "discovery.k8s.io/v1beta1", kind: "EndpointSlice", status: "removed", removedIn: "1.25", deprecatedIn: "1.21", newApi: "discovery.k8s.io/v1" },
+  { api: "batch/v1beta1", kind: "CronJob", status: "removed", removedIn: "1.25", deprecatedIn: "1.21", newApi: "batch/v1" },
+  { api: "node.k8s.io/v1beta1", kind: "RuntimeClass", status: "removed", removedIn: "1.25", deprecatedIn: "1.22", newApi: "node.k8s.io/v1" },
+  { api: "autoscaling/v2beta1", kind: "HorizontalPodAutoscaler", status: "removed", removedIn: "1.25", deprecatedIn: "1.23", newApi: "autoscaling/v2" },
+  { api: "events.k8s.io/v1beta1", kind: "Event", status: "removed", removedIn: "1.25", deprecatedIn: "1.21", newApi: "events.k8s.io/v1 or core/v1" },
+
+  // === REMOVED IN 1.26 ===
+  { api: "autoscaling/v2beta2", kind: "HorizontalPodAutoscaler", status: "removed", removedIn: "1.26", deprecatedIn: "1.23", newApi: "autoscaling/v2" },
+  { api: "flowcontrol.apiserver.k8s.io/v1beta1", kind: "FlowSchema", status: "removed", removedIn: "1.26", deprecatedIn: "1.23", newApi: "flowcontrol.apiserver.k8s.io/v1beta3" },
+  { api: "flowcontrol.apiserver.k8s.io/v1beta1", kind: "PriorityLevelConfiguration", status: "removed", removedIn: "1.26", deprecatedIn: "1.23", newApi: "flowcontrol.apiserver.k8s.io/v1beta3" },
+
+  // === REMOVED IN 1.27 ===
+  { api: "storage.k8s.io/v1beta1", kind: "CSIStorageCapacity", status: "removed", removedIn: "1.27", deprecatedIn: "1.24", newApi: "storage.k8s.io/v1" },
+
+  // === REMOVED IN 1.29 ===
+  { api: "flowcontrol.apiserver.k8s.io/v1beta2", kind: "FlowSchema", status: "removed", removedIn: "1.29", deprecatedIn: "1.26", newApi: "flowcontrol.apiserver.k8s.io/v1" },
+  { api: "flowcontrol.apiserver.k8s.io/v1beta2", kind: "PriorityLevelConfiguration", status: "removed", removedIn: "1.29", deprecatedIn: "1.26", newApi: "flowcontrol.apiserver.k8s.io/v1" },
+  { api: "flowcontrol.apiserver.k8s.io/v1beta3", kind: "FlowSchema", status: "removed", removedIn: "1.29", deprecatedIn: "1.28", newApi: "flowcontrol.apiserver.k8s.io/v1" },
+
+  // === REMOVED IN 1.32 ===
+  { api: "storage.k8s.io/v1beta1", kind: "VolumeAttributesClass", status: "removed", removedIn: "1.32", deprecatedIn: "1.31", newApi: "storage.k8s.io/v1alpha1" },
+
+  // === STILL DEPRECATED (not yet removed as of 1.32) ===
+  { api: "autoscaling/v1", kind: "HorizontalPodAutoscaler", status: "deprecated", removedIn: "TBD", deprecatedIn: "1.25", newApi: "autoscaling/v2" },
+  { api: "core/v1", kind: "ServiceAccountToken (auto-mount)", status: "deprecated", removedIn: "TBD", deprecatedIn: "1.24", newApi: "Use projected tokens / TokenRequest API" },
+];
+
+let currentFilter = 'all';
+let currentSearch = '';
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  const empty = document.getElementById('empty-state');
+  let filtered = APIS;
+
+  if (currentFilter !== 'all') {
+    if (currentFilter === 'removed') filtered = filtered.filter(a => a.status === 'removed');
+    else if (currentFilter === 'deprecated') filtered = filtered.filter(a => a.status === 'deprecated');
+    else filtered = filtered.filter(a => a.removedIn === currentFilter);
+  }
+
+  if (currentSearch) {
+    const q = currentSearch.toLowerCase();
+    filtered = filtered.filter(a =>
+      a.api.toLowerCase().includes(q) ||
+      a.kind.toLowerCase().includes(q) ||
+      a.newApi.toLowerCase().includes(q) ||
+      a.removedIn.toLowerCase().includes(q)
+    );
+  }
+
+  document.getElementById('total-count').textContent = filtered.length;
+  document.getElementById('removed-count').textContent = filtered.filter(a => a.status === 'removed').length;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    empty.classList.add('show');
+    return;
+  }
+  empty.classList.remove('show');
+
+  tbody.innerHTML = filtered.map(a => `
+    <tr data-status="${a.status}" data-version="${a.removedIn}">
+      <td><span class="api">${a.api}</span></td>
+      <td><span class="kind">${a.kind}</span></td>
+      <td><span class="badge badge-${a.status}">${a.status === 'removed' ? 'Removed' : 'Deprecated'}</span></td>
+      <td class="removed-col">${a.removedIn}</td>
+      <td>${a.deprecatedIn}</td>
+      <td><span class="new-api">${a.newApi}</span></td>
+    </tr>
+  `).join('');
+}
+
+function filterTable() {
+  currentSearch = document.getElementById('search').value.trim();
+  renderTable();
+}
+
+function setFilter(version, btn) {
+  currentFilter = version;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+renderTable();
+</script>
+</body>
+</html>
