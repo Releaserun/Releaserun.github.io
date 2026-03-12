@@ -22,6 +22,9 @@
     .tools h2 { font-size: 1.6em; margin-bottom: 24px; text-align: center; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+    .widget-preview { width: 100%; border: none; border-radius: 8px; margin-top: 14px; background: #0d1117; }
+    .widget-links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; font-size: 0.85em; }
+    .widget-links a { color: var(--accent); }
     .card h3 { font-size: 1.1em; margin-bottom: 8px; }
     .card h3 a { color: var(--text); } .card h3 a:hover { color: var(--accent); }
     .card p { color: var(--muted); font-size: 0.9em; }
@@ -116,6 +119,32 @@
         <h3><a href="https://github.com/Releaserun/releaserun-action">GitHub Action</a></h3>
         <p>Add stack health checks to your CI pipeline. Posts grade reports on PRs, fails builds on EOL dependencies, auto-updates README badges.</p>
         <span class="tag tag-free">Free</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tools">
+  <div class="container">
+    <h2>Embeddable Widgets</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><a href="https://releaserun.github.io/embed.html">Release Health Card</a></h3>
+        <p>Compact single-product widget for docs, dashboards, internal portals, and READMEs. Shows support status, days to EOL, and live badges.</p>
+        <iframe class="widget-preview" src="https://releaserun.github.io/widgets/release-health-card.html?product=nodejs&cycle=18" height="265" loading="lazy"></iframe>
+        <div class="widget-links">
+          <a href="https://releaserun.github.io/embed.html">Embed docs</a>
+          <a href="https://releaserun.github.io/widgets/release-health-card.html?product=nodejs&cycle=18">Open widget</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.github.io/embed.html">Stack Health Score</a></h3>
+        <p>Executive-style stack summary for engineering dashboards. Shows weighted score, grade, support/risk/EOL counts, and a CTA back to ReleaseRun.</p>
+        <iframe class="widget-preview" src="https://releaserun.github.io/widgets/stack-health-score.html?stack=nodejs,python,postgresql,docker-engine,kubernetes" height="250" loading="lazy"></iframe>
+        <div class="widget-links">
+          <a href="https://releaserun.github.io/embed.html">Embed docs</a>
+          <a href="https://releaserun.github.io/widgets/stack-health-score.html?stack=nodejs,python,postgresql,docker-engine,kubernetes">Open widget</a>
+        </div>
       </div>
     </div>
   </div>
