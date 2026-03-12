@@ -182,7 +182,39 @@
 
 <section>
   <div class="container">
-    <h2>6. Full Tool Embeds</h2>
+    <h2>6. Release Health Card</h2>
+    <p>A compact, copy-pasteable widget for docs, dashboards, and internal portals. Shows support status, days to EOL, and live ReleaseRun badges for a single product cycle.</p>
+
+    <iframe src="widgets/release-health-card.html?product=nodejs&cycle=18" width="100%" height="265" style="border:none; max-width:360px;"></iframe>
+
+    <h3>Embed Code</h3>
+    <pre><code>&lt;iframe
+  src="https://releaserun.github.io/widgets/release-health-card.html?product=nodejs&cycle=18"
+  width="100%" height="265"
+  style="border:none; max-width:360px;"
+  loading="lazy"&gt;&lt;/iframe&gt;</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+    <h3>Parameters</h3>
+    <table>
+      <tr><th>Param</th><th>Example</th><th>Description</th></tr>
+      <tr><td><code>product</code></td><td><code>nodejs</code></td><td>Technology slug from endoflife.date / ReleaseRun</td></tr>
+      <tr><td><code>cycle</code></td><td><code>18</code></td><td>Major version or release cycle to highlight</td></tr>
+      <tr><td><code>theme</code></td><td><code>light</code></td><td><code>dark</code> or <code>light</code></td></tr>
+      <tr><td><code>link</code></td><td><code>https://releaserun.com/tools/eol-timeline/</code></td><td>CTA destination</td></tr>
+      <tr><td><code>cta</code></td><td><code>View full timeline</code></td><td>CTA link text</td></tr>
+    </table>
+
+    <h3>Examples</h3>
+    <div class="example-grid">
+      <iframe src="widgets/release-health-card.html?product=nodejs&cycle=18&theme=dark" width="100%" height="265" style="border:none"></iframe>
+      <iframe src="widgets/release-health-card.html?product=python&cycle=3.9&theme=light&cta=Open%20release%20index&link=https://releaserun.com/release-index/" width="100%" height="265" style="border:none"></iframe>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>7. Full Tool Embeds</h2>
     <p>Embed any <a href="https://releaserun.com/tools/">ReleaseRun tool</a> directly in your page using iframe embed mode.</p>
 
     <h3>Embed Code</h3>
