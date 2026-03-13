@@ -148,6 +148,10 @@
       — ps aux/pgrep -a, df -h vs df -i inodes, du/sort, ss -tlnp (not netstat), lsof port+deleted-files footgun, ip addr/route, systemctl enable --now + custom .service unit, journalctl -f/--since/--no-pager, strace -p -e trace=network/file -c summary (safe on prod), OOM killer dmesg, perf top.
     </li>
     <li>
+      <a href="https://releaserun.com/kubernetes-yaml-reference/" target="_blank">Kubernetes YAML Reference</a>
+      — Deployment (maxUnavailable:0, probes, resource limits, topologySpread), Service types (ClusterIP/LoadBalancer/Headless/ExternalName), StatefulSet volumeClaimTemplates, CronJob, ConfigMap/Secret (stringData, envFrom, volumeMount), PVC reclaimPolicy:Retain, Ingress TLS+cert-manager, HPA v2, PodDisruptionBudget, RBAC (automountServiceAccountToken:false, resourceNames), NetworkPolicy default-deny-all.
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
