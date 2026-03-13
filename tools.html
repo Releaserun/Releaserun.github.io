@@ -176,6 +176,10 @@
       — useState (functional updates prev=>, lazy init, object spread, array patterns); useEffect (deps array, cleanup, async inner function + cancelled flag + AbortController, stale closure trap); useCallback+useMemo (only useful with memo() child, profile first); useRef (DOM access, timer IDs no re-render, previous value, stable callback via ref); useContext provider + useMemo value, useReducer for complex state; custom hooks (useLocalStorage, useDebounce, useFetch, useEventListener).
     </li>
     <li>
+      <a href="https://releaserun.com/gcloud-reference/" target="_blank">GCP CLI (gcloud) Reference</a>
+      — auth login/ADC/config configurations (named profiles); compute instances list/ssh/scp/create/firewall-rules; Cloud Run deploy (--set-secrets, --min-instances, update-traffic canary splits), jobs; GKE get-credentials/create-auto/Artifact Registry push/Workload Identity; IAM add-iam-policy-binding/service-accounts/impersonate; Secret Manager versions access; logging tail+read; Cloud Storage rsync --delete-unmatched, gcloud storage vs gsutil.
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
