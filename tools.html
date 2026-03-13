@@ -192,6 +192,10 @@
       — CrashLoopBackOff (--previous logs, exit codes: 137=OOMKilled/1=app error/0=wrong CMD, startupProbe vs liveness); OOMKilled (kubectl top, requests vs limits, JVM -Xmx 70%); Pending (Events section, node resources, taints, PVC unbound); ImagePullBackOff (wrong tag, imagePullSecrets, ECR 12h expiry, rate limits); Service no-endpoints=selector mismatch; NetworkPolicy blocking; kubectl debug ephemeral container (netshoot).
     </li>
     <li>
+      <a href="https://releaserun.com/dockerfile-best-practices/" target="_blank">Dockerfile Best Practices</a>
+      — Multi-stage (Go 800MB→12MB, Node 1.2GB→180MB, Python wheel); layer cache order (deps before source, --mount=type=cache); .dockerignore (node_modules, .git, .env); non-root (--chown COPY, distroless nonroot, K8s SecurityContext); secrets (never ENV/ARG, BuildKit --mount=type=secret); base images (scratch/distroless/alpine/slim, pin @sha256); ENTRYPOINT exec form PID 1 signals; HEALTHCHECK; readOnlyRootFilesystem; Trivy in CI.
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
