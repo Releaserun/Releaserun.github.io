@@ -152,6 +152,10 @@
       — Deployment (maxUnavailable:0, probes, resource limits, topologySpread), Service types (ClusterIP/LoadBalancer/Headless/ExternalName), StatefulSet volumeClaimTemplates, CronJob, ConfigMap/Secret (stringData, envFrom, volumeMount), PVC reclaimPolicy:Retain, Ingress TLS+cert-manager, HPA v2, PodDisruptionBudget, RBAC (automountServiceAccountToken:false, resourceNames), NetworkPolicy default-deny-all.
     </li>
     <li>
+      <a href="https://releaserun.com/helm-reference/" target="_blank">Helm Reference</a>
+      — helm upgrade --install (idempotent CI pattern), --atomic auto-rollback, rollback by revision, repo add/update/search, show values, pull --untar, template + dry-run validation; --set vs -f values (multiple files merge), --set-string type safety, --set key=null remove; toYaml+nindent, required, default, include _helpers.tpl, checksum annotation for ConfigMap-triggered restarts; pre-upgrade hooks for DB migrations, helm lint --strict, helm get manifest.
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
