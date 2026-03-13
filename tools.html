@@ -140,6 +140,10 @@
       — server blocks, location priority (=/^~/~/prefix), proxy_pass (WebSocket, path stripping), upstream (least_conn/ip_hash/max_fails/keepalive), SSL/TLS (TLSv1.3, OCSP, HSTS), rate limiting (limit_req burst nodelay), gzip, proxy_cache, JSON logs.
     </li>
     <li>
+      <a href="https://releaserun.com/docker-compose-reference/" target="_blank">Docker Compose Reference</a>
+      — compose.yaml v2, depends_on (service_healthy/started/completed), healthcheck (pg_isready/redis-cli ping), named volumes vs bind mounts :ro vs tmpfs, networks internal:true, profiles for optional services, Docker secrets /run/secrets/, resource limits, docker compose up/down/logs/exec/run/config, override files.
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
