@@ -196,6 +196,10 @@
       — Multi-stage (Go 800MB→12MB, Node 1.2GB→180MB, Python wheel); layer cache order (deps before source, --mount=type=cache); .dockerignore (node_modules, .git, .env); non-root (--chown COPY, distroless nonroot, K8s SecurityContext); secrets (never ENV/ARG, BuildKit --mount=type=secret); base images (scratch/distroless/alpine/slim, pin @sha256); ENTRYPOINT exec form PID 1 signals; HEALTHCHECK; readOnlyRootFilesystem; Trivy in CI.
     </li>
     <li>
+      <a href="https://releaserun.com/rust-error-handling-reference/" target="_blank">Rust Error Handling</a>
+      — Result (map/map_err/and_then/unwrap_or/collect fail-fast), Option (as_deref/flatten/zip/take), ? operator (desugars to match+From::from), thiserror (#[from] auto-converts #[error(...)] Display), anyhow (context/bail!/ensure!/anyhow!, {:?} full chain), custom error types (impl Error source() for chains), panic vs Result (bug=panic, expected failure=Result, expect() over unwrap()).
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
