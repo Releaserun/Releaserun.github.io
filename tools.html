@@ -168,6 +168,10 @@
       — async def vs await, asyncio.run(), gather (order preserved, return_exceptions), create_task, TaskGroup 3.11+, Semaphore concurrency limit; timeout/wait_for/shield, retry backoff; to_thread for sync libs (never time.sleep in async!); aiohttp one-session pattern, aiofiles; Queue producer/consumer with task_done+join, Lock rate limiter, Semaphore N-concurrent, Event signaling.
     </li>
     <li>
+      <a href="https://releaserun.com/gh-cli-reference/" target="_blank">GitHub CLI (gh) Reference</a>
+      — auth login/GH_TOKEN/CI usage; pr create (--fill/--draft), checkout one command, review, merge squash/--auto, checks --watch --exit-status; issue create/list (@me/labels/search cross-repo), run watch (--exit-status blocks CI), view --log-failed (only failed steps), workflow dispatch + inputs; repo fork (--clone --remote), release create (--generate-notes auto from PRs); gh api REST+GraphQL --paginate --jq.
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
