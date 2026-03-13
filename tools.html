@@ -184,6 +184,10 @@
       — go test -race (always in CI), -run regex subtests, -cover/-count flaky detection; table-driven tests []struct + t.Run (tt := tt capture, Go 1.22+ fixed); testify require (stops) vs assert (continues), require.Eventually; t.Helper() caller line numbers, t.Cleanup() (better than defer for parallel subtests), TestMain global setup; benchmarks b.ResetTimer/ReportAllocs/RunParallel, benchstat comparison; fuzz Go 1.18+ f.Add seeds + invariant testing; httptest.NewRecorder vs NewServer.
     </li>
     <li>
+      <a href="https://releaserun.com/python-type-hints-reference/" target="_blank">Python Type Hints & Dataclasses</a>
+      — @dataclass (field default_factory mutable default bug, frozen+hashable, KW_ONLY, slots, __post_init__ validation+derived), asdict/replace/InitVar; TypedDict, Protocol (structural subtyping, runtime_checkable), Literal, Final, Union |; TypeVar+Generic (Stack[int]), Annotated (Pydantic/FastAPI), @overload multiple signatures, TypeGuard narrowing; Python 3.12 type aliases, Self builder pattern, Never exhaustiveness, ParamSpec typed decorators.
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
