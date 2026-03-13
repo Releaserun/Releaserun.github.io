@@ -200,6 +200,10 @@
       — Result (map/map_err/and_then/unwrap_or/collect fail-fast), Option (as_deref/flatten/zip/take), ? operator (desugars to match+From::from), thiserror (#[from] auto-converts #[error(...)] Display), anyhow (context/bail!/ensure!/anyhow!, {:?} full chain), custom error types (impl Error source() for chains), panic vs Result (bug=panic, expected failure=Result, expect() over unwrap()).
     </li>
     <li>
+      <a href="https://releaserun.com/azure-cli-reference/" target="_blank">Azure CLI (az) Reference</a>
+      — az login (browser/device-code/service-principal/managed identity), az configure --defaults; VM (create/SSH/run-command without SSH/deallocate vs stop/resize/open-port); AKS (get-credentials/nodepool/autoscaler/upgrade/attach-acr); Storage (blob upload-batch/generate-sas/static-website); Key Vault (RBAC mode/managed identity access); RBAC + service principals (federated credentials OIDC, no client secret).
+    </li>
+    <li>
       <a href="https://releaserun.com/ssh-reference/" target="_blank">SSH Reference</a>
       — 30+ SSH patterns: config file (Host blocks, ProxyJump, ServerAliveInterval), ssh-keygen Ed25519, ssh-agent, local/remote/SOCKS port forwarding (-L/-R/-D), ProxyJump bastion hosts, rsync, sshd_config hardening.
     </li>
