@@ -1,0 +1,191 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <title>5 Kubernetes Gotchas That Break Production Deployments</title>
+  <meta name="description" content="5 real Kubernetes mistakes that cause production incidents — and how to fix them.">
+  <link rel="canonical" href="https://releaserun.github.io/stories/kubernetes-gotchas.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-custom>
+    amp-story-page { background: #0f172a; }
+    .slide-bg { position: absolute; inset: 0; }
+    .content { position: absolute; bottom: 80px; left: 0; right: 0; padding: 0 32px; }
+    .label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #60a5fa; margin-bottom: 8px; }
+    .headline { font-size: 28px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .body { font-size: 15px; color: #cbd5e1; line-height: 1.6; }
+    .code { background: rgba(255,255,255,0.1); border-left: 3px solid #60a5fa; padding: 10px 14px; border-radius: 4px; font-family: monospace; font-size: 13px; color: #e2e8f0; margin-top: 12px; white-space: pre; }
+    .num { font-size: 64px; font-weight: 900; color: rgba(96,165,250,0.2); position: absolute; top: 80px; right: 28px; line-height: 1; }
+    .cover-bg { background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%); }
+    .cover-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; }
+    .cover-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #60a5fa; text-transform: uppercase; margin-bottom: 16px; }
+    .cover-title { font-size: 34px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .cover-sub { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .badge { display: inline-block; background: #3b82f6; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .end-bg { background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%); }
+    .end-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; }
+    .end-title { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .end-body { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .end-link { background: #3b82f6; color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; }
+    .k8s-icon { font-size: 48px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+<amp-story standalone
+  title="5 Kubernetes Gotchas That Break Production Deployments"
+  publisher="ReleaseRun"
+  publisher-logo-src="https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+  poster-portrait-src="https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=720&q=80">
+
+  <!-- Page 1: Cover -->
+  <amp-story-page id="cover">
+    <amp-story-grid-layer template="fill">
+      <div class="cover-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="cover-content">
+        <div class="cover-eyebrow">ReleaseRun · Kubernetes 2026</div>
+        <div class="cover-title">5 Kubernetes Gotchas That Break Production</div>
+        <div class="cover-sub">Real mistakes, real incident post-mortems, and the fixes that actually work.</div>
+        <div><span class="badge">Tap to start →</span></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 2: Gotcha 1 — imagePullPolicy: Always -->
+  <amp-story-page id="gotcha-1" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1e293b,#0f172a)"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">1</div>
+        <div style="position:absolute;bottom:60px;left:28px;right:28px">
+          <div class="label">Gotcha #1</div>
+          <div class="headline">imagePullPolicy: Always slows every deploy</div>
+          <div class="body">Every Pod restart hits your registry. On spot instances with high churn this adds 30-60s per restart and can rate-limit your registry.</div>
+          <div class="code">imagePullPolicy: IfNotPresent  # cached image is fine
+# Always = necessary only if you use :latest or mutable tags
+# Pin tags: my-app:1.4.0 — then IfNotPresent is safe</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 3: Gotcha 2 — missing resource limits -->
+  <amp-story-page id="gotcha-2" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1a1f35,#0f172a)"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">2</div>
+        <div style="position:absolute;bottom:60px;left:28px;right:28px">
+          <div class="label">Gotcha #2</div>
+          <div class="headline">No resource limits = noisy neighbour OOMKills your app</div>
+          <div class="body">Without limits, one runaway Pod can OOMKill every other Pod on the node. Without requests, the scheduler can't plan and overcommits nodes.</div>
+          <div class="code">resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    memory: "256Mi"   # CPU: no limit (throttle not kill)
+    # No CPU limit = throttled, not OOMKilled</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 4: Gotcha 3 — liveness probe kills slow-starting apps -->
+  <amp-story-page id="gotcha-3" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1c1f30,#0f172a)"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">3</div>
+        <div style="position:absolute;bottom:60px;left:28px;right:28px">
+          <div class="label">Gotcha #3</div>
+          <div class="headline">livenessProbe kills app before it finishes starting</div>
+          <div class="body">livenessProbe starts checking immediately. JVM apps, apps loading ML models, apps running migrations — all get killed in CrashLoopBackOff.</div>
+          <div class="code">startupProbe:           # add this!
+  httpGet: {path: /health, port: 8080}
+  failureThreshold: 30  # 30 × 10s = 5 minutes
+  periodSeconds: 10
+livenessProbe:          # only starts after startupProbe succeeds
+  httpGet: {path: /health, port: 8080}
+  periodSeconds: 30</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 5: Gotcha 4 — no PodDisruptionBudget -->
+  <amp-story-page id="gotcha-4" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1a2035,#0f172a)"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">4</div>
+        <div style="position:absolute;bottom:60px;left:28px;right:28px">
+          <div class="label">Gotcha #4</div>
+          <div class="headline">kubectl drain takes down all replicas at once</div>
+          <div class="body">Node upgrades and cluster maintenance drain nodes. Without a PodDisruptionBudget, kubectl drain can evict ALL pods simultaneously — instant outage.</div>
+          <div class="code">apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: {name: my-app}
+spec:
+  minAvailable: 2     # always keep 2 pods running
+  selector:
+    matchLabels: {app: my-app}</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 6: Gotcha 5 — WaitForFirstConsumer PVC stuck -->
+  <amp-story-page id="gotcha-5" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div style="position:absolute;inset:0;background:linear-gradient(160deg,#1e2030,#0f172a)"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">5</div>
+        <div style="position:absolute;bottom:60px;left:28px;right:28px">
+          <div class="label">Gotcha #5</div>
+          <div class="headline">StatefulSet PVC stuck Pending — AZ mismatch</div>
+          <div class="body">Cloud block disks (EBS, Azure Disk) are zone-specific. If PVC is created before the Pod is scheduled, it may land in the wrong AZ and the Pod can never mount it.</div>
+          <div class="code">apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata: {name: gp3}
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+# Waits until Pod is scheduled, then creates disk in same AZ</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 7: End CTA -->
+  <amp-story-page id="end">
+    <amp-story-grid-layer template="fill">
+      <div class="end-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="end-content">
+        <div class="k8s-icon">⚡</div>
+        <div class="end-title">Track every Kubernetes release</div>
+        <div class="end-body">releaserun.com monitors Kubernetes, Node.js, Go, Python, PostgreSQL, and 13+ more technologies. Get the story behind every version bump.</div>
+        <a href="https://releaserun.com/kubernetes-releases/" class="end-link">Kubernetes Release History →</a>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-bookend src="https://releaserun.github.io/stories/bookend.json" layout="nodisplay"></amp-story-bookend>
+</amp-story>
+</body>
+</html>
