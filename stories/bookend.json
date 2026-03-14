@@ -1,6 +1,10 @@
 {
   "bookendVersion": "v1.0",
-  "shareProviders": ["twitter", "linkedin", "email"],
+  "shareProviders": [
+    "twitter",
+    "linkedin",
+    "email"
+  ],
   "components": [
     {
       "type": "heading",
@@ -8,21 +12,21 @@
     },
     {
       "type": "small",
-      "title": "Kubernetes Troubleshooting Reference",
-      "url": "https://releaserun.com/kubernetes-troubleshooting/",
-      "image": "https://releaserun.com/wp-content/uploads/2025/02/hero-kubernetes-1200x675-1.jpg"
+      "title": "Python Release History",
+      "url": "https://releaserun.com/python-releases/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/hero-python-1200x675-1.jpg"
     },
     {
       "type": "small",
-      "title": "Kubernetes Storage Reference",
-      "url": "https://releaserun.com/kubernetes-storage-reference/",
-      "image": "https://releaserun.com/wp-content/uploads/2025/02/hero-kubernetes-1200x675-1.jpg"
+      "title": "Python 3.14 Web Story",
+      "url": "https://releaserun.github.io/stories/python-314.html",
+      "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=400&q=60"
     },
     {
       "type": "small",
-      "title": "ArgoCD & GitOps Reference",
-      "url": "https://releaserun.com/argocd-reference/",
-      "image": "https://releaserun.com/wp-content/uploads/2025/02/hero-kubernetes-1200x675-1.jpg"
+      "title": "Kubernetes Gotchas",
+      "url": "https://releaserun.github.io/stories/kubernetes-gotchas.html",
+      "image": "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=400&q=60"
     }
   ]
 }
