@@ -1,0 +1,187 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <title>Python 3.14 Is Coming: 5 Changes That Actually Matter</title>
+  <meta name="description" content="5 real Python 3.14 changes developers should know before upgrading.">
+  <link rel="canonical" href="https://releaserun.github.io/stories/python-314.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-custom>
+    .cover-bg { background: linear-gradient(135deg, #1a3a2a 0%, #0f172a 100%); }
+    .slide-bg-py { background: linear-gradient(160deg, #1a2f1a, #0f172a); }
+    .content-block { position: absolute; bottom: 60px; left: 28px; right: 28px; }
+    .label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #4ade80; margin-bottom: 8px; }
+    .headline { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 10px; }
+    .body { font-size: 14px; color: #cbd5e1; line-height: 1.6; }
+    .code { background: rgba(255,255,255,0.08); border-left: 3px solid #4ade80; padding: 10px 14px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #e2e8f0; margin-top: 10px; white-space: pre; overflow: hidden; }
+    .num { font-size: 60px; font-weight: 900; color: rgba(74,222,128,0.15); position: absolute; top: 70px; right: 24px; line-height: 1; }
+    .cover-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; }
+    .cover-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: #4ade80; text-transform: uppercase; margin-bottom: 14px; }
+    .cover-title { font-size: 32px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 18px; }
+    .cover-sub { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 28px; }
+    .badge { display: inline-block; background: #16a34a; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .end-bg { background: linear-gradient(135deg, #1a3a2a 0%, #0f172a 100%); }
+    .end-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; }
+    .end-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 14px; }
+    .end-body { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 28px; }
+    .end-link { background: #16a34a; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none; }
+    .py-icon { font-size: 44px; margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+<amp-story standalone
+  title="Python 3.14 Is Coming: 5 Changes That Actually Matter"
+  publisher="ReleaseRun"
+  publisher-logo-src="https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+  poster-portrait-src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=720&q=80">
+
+  <amp-story-page id="cover">
+    <amp-story-grid-layer template="fill">
+      <div class="cover-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="cover-content">
+        <div class="cover-eyebrow">ReleaseRun · Python 2026</div>
+        <div class="cover-title">Python 3.14 Is Coming: 5 Changes That Actually Matter</div>
+        <div class="cover-sub">What's landing in Python 3.14 (Oct 2025) and what you need to know before upgrading.</div>
+        <div><span class="badge">Tap to start →</span></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-page id="change-1" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div class="slide-bg-py" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">1</div>
+        <div class="content-block">
+          <div class="label">Change #1</div>
+          <div class="headline">Free-threaded Python is here (no GIL by default option)</div>
+          <div class="body">Python 3.13 introduced experimental no-GIL builds. Python 3.14 advances this significantly — multi-core CPU-bound code can finally run truly parallel in the same process.</div>
+          <div class="code">python3.14t myapp.py   # 't' = free-threaded build
+# or: configure with --disable-gil at build time
+# Check:
+import sys
+sys._is_gil_enabled()   # False in free-threaded build</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-page id="change-2" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div class="slide-bg-py" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">2</div>
+        <div class="content-block">
+          <div class="label">Change #2</div>
+          <div class="headline">Deferred evaluation of annotations (PEP 649) finally lands</div>
+          <div class="body">Annotations are no longer evaluated at class definition time. This kills circular import errors from type hints and makes forward references just work.</div>
+          <div class="code"># Python 3.14: no NameError, no 'from __future__ import annotations'
+class Node:
+    def next(self) -> Node:   # Node isn't defined yet — now fine
+        return Node()
+
+# TYPE_CHECKING workaround no longer needed for most cases</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-page id="change-3" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div class="slide-bg-py" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">3</div>
+        <div class="content-block">
+          <div class="label">Change #3</div>
+          <div class="headline">Improved error messages — tracebacks get smarter</div>
+          <div class="body">Python 3.14 continues the 3.11+ trend of exceptionally clear error messages. AttributeError, TypeError, and NameError now include suggestions and context that actually explain what went wrong.</div>
+          <div class="code"># Python 3.14 example:
+>>> import mathh
+ModuleNotFoundError: No module named 'mathh'
+Did you mean: 'math'?
+
+>>> [1, 2, 3].len()
+AttributeError: 'list' object has no attribute 'len'
+Did you mean: len([1, 2, 3])?</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-page id="change-4" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div class="slide-bg-py" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">4</div>
+        <div class="content-block">
+          <div class="label">Change #4</div>
+          <div class="headline">Python 3.10 reaches end-of-life — upgrade now</div>
+          <div class="body">Python 3.10 EOL is October 2026. If you're still on 3.10, you're 2 major versions behind. No more security patches after that date.</div>
+          <div class="code"># Current support status:
+# 3.14  — Oct 2025 → Oct 2030 (active)
+# 3.13  — Oct 2024 → Oct 2029 (active)
+# 3.12  — Oct 2023 → Oct 2028 (active)
+# 3.11  — Oct 2022 → Oct 2027 (active)
+# 3.10  — Oct 2021 → Oct 2026 (security only)
+# 3.9   — Oct 2020 → Oct 2025 (EOL!)</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-page id="change-5" auto-advance-after="8s">
+    <amp-story-grid-layer template="fill">
+      <div class="slide-bg-py" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div style="padding:40px 28px;position:relative;height:100%">
+        <div class="num">5</div>
+        <div class="content-block">
+          <div class="label">Change #5</div>
+          <div class="headline">uv is now the official recommended package manager</div>
+          <div class="body">pip isn't going anywhere, but uv (from Astral) is 10-100x faster, handles venvs + lock files + workspaces, and is recommended by the Python packaging authority for new projects in 2025+.</div>
+          <div class="code"># uv replaces pip + venv + pip-tools + pyenv:
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+uv init myproject        # new project
+uv add fastapi httpx     # install deps (creates uv.lock)
+uv run pytest            # run in project venv
+uv sync                  # install from lockfile (CI)
+uv python install 3.14   # install Python version</div>
+        </div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-page id="end">
+    <amp-story-grid-layer template="fill">
+      <div class="end-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="end-content">
+        <div class="py-icon">🐍</div>
+        <div class="end-title">Track every Python release</div>
+        <div class="end-body">See the full Python release history, EOL dates, version comparison, and upgrade guides — all in one place.</div>
+        <a href="https://releaserun.com/python-releases/" class="end-link">Python Release History →</a>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <amp-story-bookend src="https://releaserun.github.io/stories/bookend.json" layout="nodisplay"></amp-story-bookend>
+</amp-story>
+</body>
+</html>
