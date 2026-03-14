@@ -1,0 +1,28 @@
+{
+  "bookendVersion": "v1.0",
+  "shareProviders": ["twitter", "linkedin", "email"],
+  "components": [
+    {
+      "type": "heading",
+      "text": "More from ReleaseRun"
+    },
+    {
+      "type": "small",
+      "title": "Kubernetes Troubleshooting Reference",
+      "url": "https://releaserun.com/kubernetes-troubleshooting/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/hero-kubernetes-1200x675-1.jpg"
+    },
+    {
+      "type": "small",
+      "title": "Kubernetes Storage Reference",
+      "url": "https://releaserun.com/kubernetes-storage-reference/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/hero-kubernetes-1200x675-1.jpg"
+    },
+    {
+      "type": "small",
+      "title": "ArgoCD & GitOps Reference",
+      "url": "https://releaserun.com/argocd-reference/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/hero-kubernetes-1200x675-1.jpg"
+    }
+  ]
+}
