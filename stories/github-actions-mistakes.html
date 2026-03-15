@@ -1,0 +1,181 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <title>5 GitHub Actions Mistakes That Slow Down Every Build</title>
+  <meta name="description" content="5 common GitHub Actions anti-patterns: no caching, storing secrets in env, no concurrency cancel, missing permissions, pinning to floating tags.">
+  <link rel="canonical" href="https://releaserun.github.io/stories/github-actions-mistakes.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-custom>
+    amp-story-page { background: #0f172a; }
+    .content { position: absolute; bottom: 80px; left: 0; right: 0; padding: 0 32px; }
+    .label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a78bfa; margin-bottom: 8px; }
+    .headline { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .body { font-size: 15px; color: #cbd5e1; line-height: 1.6; }
+    .code { background: rgba(0,0,0,0.5); border-left: 3px solid #a78bfa; padding: 10px 14px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #e2e8f0; margin-top: 12px; white-space: pre-wrap; }
+    .num { font-size: 64px; font-weight: 900; color: rgba(167,139,250,0.15); position: absolute; top: 80px; right: 28px; line-height: 1; }
+    .fix { font-size: 13px; font-weight: 700; color: #4ade80; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+    .warn { font-size: 13px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+    .cover-bg { background: linear-gradient(135deg, #1e1040 0%, #0f172a 100%); }
+    .cover-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; }
+    .cover-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #a78bfa; text-transform: uppercase; margin-bottom: 16px; }
+    .cover-title { font-size: 32px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .cover-sub { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .badge { display: inline-block; background: #7c3aed; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .end-bg { background: linear-gradient(135deg, #1e1040 0%, #0f172a 100%); }
+    .end-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; }
+    .end-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .end-body { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .end-link { background: #7c3aed; color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+    .page-bg { background: linear-gradient(170deg, #140b30 0%, #0f172a 100%); position: absolute; inset: 0; }
+  </style>
+</head>
+<body>
+<amp-story standalone
+  title="5 GitHub Actions Mistakes That Slow Down Every Build"
+  publisher="ReleaseRun"
+  publisher-logo-src="https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+  poster-portrait-src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=720&q=80">
+
+  <!-- Page 1: Cover -->
+  <amp-story-page id="cover">
+    <amp-story-grid-layer template="fill">
+      <div class="cover-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="cover-content">
+        <div class="cover-eyebrow">ReleaseRun · GitHub Actions 2026</div>
+        <div class="cover-title">5 GitHub Actions Mistakes That Slow Down Every Build</div>
+        <div class="cover-sub">Each one adds minutes to every CI run and makes pipelines less safe.</div>
+        <div><span class="badge">Tap to start →</span></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 2: No dependency caching -->
+  <amp-story-page id="mistake-1" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">1</div>
+        <div class="label">Mistake 1 / 5</div>
+        <div class="headline">Not caching dependencies</div>
+        <div class="body">`npm install` or `pip install` from scratch on every run. 300 packages, 45 seconds, every commit. Cache by lockfile hash and you pay that cost once per lockfile change.</div>
+        <div class="code">- uses: actions/cache@v4
+  with:
+    path: ~/.npm
+    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-node-</div>
+        <div class="fix">✓ Cache by lockfile hash = near-zero re-install time</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 3: No concurrency cancel -->
+  <amp-story-page id="mistake-2" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">2</div>
+        <div class="label">Mistake 2 / 5</div>
+        <div class="headline">Queuing redundant workflow runs</div>
+        <div class="body">Push 3 commits in quick succession: 3 full CI runs queue up. The first two will be cancelled by the third anyway — but only after wasting your minutes allowance.</div>
+        <div class="code">concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true</div>
+        <div class="fix">✓ Two lines at workflow level, instant savings</div>
+        <div class="warn">⚠ Don't use on release/main branches</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 4: Pinning to floating tags -->
+  <amp-story-page id="mistake-3" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">3</div>
+        <div class="label">Mistake 3 / 5</div>
+        <div class="headline">Using `@v3` instead of a commit SHA</div>
+        <div class="body">Tags are mutable. A malicious or accidental force-push to `actions/checkout@v4` could replace your trusted action with anything. This is a real supply chain attack vector.</div>
+        <div class="code"># Unsafe: tag can be moved
+- uses: actions/checkout@v4
+
+# Safe: pinned to exact commit
+- uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683</div>
+        <div class="fix">✓ Pin to full SHA in security-sensitive repos</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 5: Overpermissive token -->
+  <amp-story-page id="mistake-4" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">4</div>
+        <div class="label">Mistake 4 / 5</div>
+        <div class="headline">Missing permissions block</div>
+        <div class="body">By default, `GITHUB_TOKEN` has write access to your repo. A compromised action in your pipeline can push commits, create releases, or modify issues. Scope it down.</div>
+        <div class="code">permissions:
+  contents: read      # default: write
+  pull-requests: write # only if you need it
+  # Everything else defaults to none</div>
+        <div class="fix">✓ Declare permissions at job or workflow level</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 6: Secrets in env -->
+  <amp-story-page id="mistake-5" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">5</div>
+        <div class="label">Mistake 5 / 5</div>
+        <div class="headline">Storing cloud credentials as secrets</div>
+        <div class="body">Long-lived AWS/GCP keys in GitHub Secrets can leak via log exposure, third-party actions, or PR-triggered runs from forks. OIDC gives you zero-stored-secret cloud access.</div>
+        <div class="code">- uses: aws-actions/configure-aws-credentials@v4
+  with:
+    role-to-assume: arn:aws:iam::123:role/github-ci
+    aws-region: eu-west-1
+    # No key ID or secret key stored anywhere</div>
+        <div class="fix">✓ OIDC = ephemeral tokens, zero stored secrets</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 7: CTA -->
+  <amp-story-page id="end">
+    <amp-story-grid-layer template="fill">
+      <div class="end-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="end-content">
+        <div style="font-size:48px;margin-bottom:16px">⚙️</div>
+        <div class="end-title">Grade your dependencies in CI</div>
+        <div class="end-body">Add one step to your GitHub Actions workflow. ReleaseRun checks every dependency for EOL status and CVE exposure. A-F grades in 30 seconds.</div>
+        <a class="end-link" href="https://releaserun.com/tools/k8s-deprecation-checker/">Free Tools →</a>
+        <div style="margin-top:8px"><a href="https://releaserun.com/github-actions-reference/" style="color:#a78bfa;font-size:14px">GitHub Actions Reference Guide</a></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+</amp-story>
+</body>
+</html>
