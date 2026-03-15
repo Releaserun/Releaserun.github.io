@@ -1,0 +1,32 @@
+{
+  "bookendVersion": "v1.0",
+  "shareProviders": [
+    {"provider": "twitter"},
+    {"provider": "linkedin"},
+    {"provider": "email"}
+  ],
+  "components": [
+    {
+      "type": "heading",
+      "text": "More from ReleaseRun"
+    },
+    {
+      "type": "small",
+      "title": "Free K8s Deprecated API Checker",
+      "url": "https://releaserun.com/tools/k8s-deprecation-checker/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    },
+    {
+      "type": "small",
+      "title": "Kubernetes RBAC Reference",
+      "url": "https://releaserun.com/kubernetes-rbac-reference/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    },
+    {
+      "type": "small",
+      "title": "Kubernetes NetworkPolicy Reference",
+      "url": "https://releaserun.com/kubernetes-networkpolicy-reference/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    }
+  ]
+}
