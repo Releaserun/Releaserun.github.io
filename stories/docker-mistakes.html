@@ -1,0 +1,173 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <title>5 Docker Mistakes That Break Production</title>
+  <meta name="description" content="5 real Docker mistakes that cause production incidents — unpinned tags, missing .dockerignore, secrets in layers, running as root, and skipping multi-stage builds.">
+  <link rel="canonical" href="https://releaserun.github.io/stories/docker-mistakes.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-custom>
+    amp-story-page { background: #0f172a; }
+    .content { position: absolute; bottom: 80px; left: 0; right: 0; padding: 0 32px; }
+    .label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px; }
+    .headline { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .body { font-size: 15px; color: #cbd5e1; line-height: 1.6; }
+    .code { background: rgba(0,0,0,0.5); border-left: 3px solid #38bdf8; padding: 10px 14px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #e2e8f0; margin-top: 12px; white-space: pre-wrap; }
+    .num { font-size: 64px; font-weight: 900; color: rgba(56,189,248,0.2); position: absolute; top: 80px; right: 28px; line-height: 1; }
+    .fix { font-size: 13px; font-weight: 700; color: #4ade80; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+    .cover-bg { background: linear-gradient(135deg, #0c2340 0%, #0f172a 100%); }
+    .cover-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; }
+    .cover-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #38bdf8; text-transform: uppercase; margin-bottom: 16px; }
+    .cover-title { font-size: 34px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .cover-sub { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .badge { display: inline-block; background: #0284c7; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .end-bg { background: linear-gradient(135deg, #0c2340 0%, #0f172a 100%); }
+    .end-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; }
+    .end-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .end-body { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .end-link { background: #0284c7; color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+    .page-bg { background: linear-gradient(170deg, #0c1a2e 0%, #0f172a 100%); position: absolute; inset: 0; }
+  </style>
+</head>
+<body>
+<amp-story standalone
+  title="5 Docker Mistakes That Break Production"
+  publisher="ReleaseRun"
+  publisher-logo-src="https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+  poster-portrait-src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=720&q=80">
+
+  <!-- Page 1: Cover -->
+  <amp-story-page id="cover">
+    <amp-story-grid-layer template="fill">
+      <div class="cover-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="cover-content">
+        <div class="cover-eyebrow">ReleaseRun · Docker 2026</div>
+        <div class="cover-title">5 Docker Mistakes That Break Production</div>
+        <div class="cover-sub">Real patterns from real post-mortems. Each one is preventable — once you know it.</div>
+        <div><span class="badge">Tap to start →</span></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 2: Mistake 1 — :latest tag -->
+  <amp-story-page id="mistake-1" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">1</div>
+        <div class="label">Mistake 1 / 5</div>
+        <div class="headline">Pinning to :latest</div>
+        <div class="body">It works until it doesn't. A dependency release over the weekend silently changed the image. Monday deployment breaks with a different Python version than last week.</div>
+        <div class="code">FROM python:3.12.9-slim
+# not: FROM python:latest</div>
+        <div class="fix">✓ Always pin to an exact version</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 3: Mistake 2 — Running as root -->
+  <amp-story-page id="mistake-2" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">2</div>
+        <div class="label">Mistake 2 / 5</div>
+        <div class="headline">Running containers as root</div>
+        <div class="body">Default Docker containers run as UID 0. If an attacker escapes the container, they're already root on the host. Most apps don't need root at all.</div>
+        <div class="code">RUN adduser --disabled-password appuser
+USER appuser</div>
+        <div class="fix">✓ Create a non-root user and switch to it</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 4: Mistake 3 — Secrets in image layers -->
+  <amp-story-page id="mistake-3" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">3</div>
+        <div class="label">Mistake 3 / 5</div>
+        <div class="headline">Secrets baked into layers</div>
+        <div class="body">Every RUN, COPY, and ADD creates a layer. Deleting a secret in a later layer doesn't remove it — it's still in the image history and readable via docker history.</div>
+        <div class="code">RUN --mount=type=secret,id=npmrc \
+  npm install --ignore-scripts</div>
+        <div class="fix">✓ Use BuildKit --mount=type=secret</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 5: Mistake 4 — Missing .dockerignore -->
+  <amp-story-page id="mistake-4" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">4</div>
+        <div class="label">Mistake 4 / 5</div>
+        <div class="headline">No .dockerignore file</div>
+        <div class="body">Without it, `docker build` sends your entire directory to the daemon — including .git (often 200MB+), node_modules, .env files with local secrets, and test fixtures.</div>
+        <div class="code">.git
+node_modules
+.env
+*.log
+coverage/
+.DS_Store</div>
+        <div class="fix">✓ Add .dockerignore to every repo</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 6: Mistake 5 — No multi-stage build -->
+  <amp-story-page id="mistake-5" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">5</div>
+        <div class="label">Mistake 5 / 5</div>
+        <div class="headline">Shipping the build toolchain</div>
+        <div class="body">Single-stage builds ship compilers, test deps, and build caches to production. A Go app that's 8MB binary arrives as a 800MB image with the full Go toolchain.</div>
+        <div class="code">FROM golang:1.24 AS builder
+RUN go build -o app .
+
+FROM gcr.io/distroless/static
+COPY --from=builder /app/app /app</div>
+        <div class="fix">✓ Multi-stage: build heavy, ship light</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 7: CTA / Bookend -->
+  <amp-story-page id="end">
+    <amp-story-grid-layer template="fill">
+      <div class="end-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="end-content">
+        <div style="font-size:48px;margin-bottom:16px">🐳</div>
+        <div class="end-title">Know your Docker image health grades</div>
+        <div class="end-body">ReleaseRun tracks version health, EOL status, and CVE exposure for 300+ technologies — including Docker base images.</div>
+        <a class="end-link" href="https://releaserun.com/tools/vulnerability-scanner/">Free Vuln Scanner →</a>
+        <div style="margin-top:8px"><a href="https://releaserun.com/docker-reference/" style="color:#38bdf8;font-size:14px">Docker Reference Guide</a></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+</amp-story>
+</body>
+</html>
