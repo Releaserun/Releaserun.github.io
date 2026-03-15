@@ -1,0 +1,188 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <title>5 Kubernetes Security Mistakes That Expose Your Cluster</title>
+  <meta name="description" content="5 Kubernetes security mistakes that leave clusters exposed: no securityContext, overpermissive RBAC, flat networking, secrets in env vars, unsigned images.">
+  <link rel="canonical" href="https://releaserun.github.io/stories/k8s-security.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-custom>
+    amp-story-page { background: #0f172a; }
+    .content { position: absolute; bottom: 80px; left: 0; right: 0; padding: 0 32px; }
+    .label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f87171; margin-bottom: 8px; }
+    .headline { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .body { font-size: 15px; color: #cbd5e1; line-height: 1.6; }
+    .code { background: rgba(0,0,0,0.5); border-left: 3px solid #f87171; padding: 10px 14px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #e2e8f0; margin-top: 12px; white-space: pre-wrap; }
+    .num { font-size: 64px; font-weight: 900; color: rgba(248,113,113,0.15); position: absolute; top: 80px; right: 28px; line-height: 1; }
+    .fix { font-size: 13px; font-weight: 700; color: #4ade80; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+    .warn { font-size: 13px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+    .cover-bg { background: linear-gradient(135deg, #3b0000 0%, #0f172a 100%); }
+    .cover-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; }
+    .cover-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #f87171; text-transform: uppercase; margin-bottom: 16px; }
+    .cover-title { font-size: 32px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .cover-sub { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .badge { display: inline-block; background: #dc2626; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .end-bg { background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%); }
+    .end-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; }
+    .end-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .end-body { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .end-link { background: #3b82f6; color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+    .page-bg { background: linear-gradient(170deg, #1c0000 0%, #0f172a 100%); position: absolute; inset: 0; }
+  </style>
+</head>
+<body>
+<amp-story standalone
+  title="5 Kubernetes Security Mistakes That Expose Your Cluster"
+  publisher="ReleaseRun"
+  publisher-logo-src="https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+  poster-portrait-src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=720&q=80">
+
+  <!-- Page 1: Cover -->
+  <amp-story-page id="cover">
+    <amp-story-grid-layer template="fill">
+      <div class="cover-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="cover-content">
+        <div class="cover-eyebrow">ReleaseRun · Kubernetes Security</div>
+        <div class="cover-title">5 Kubernetes Security Mistakes That Expose Your Cluster</div>
+        <div class="cover-sub">Each one is on the OWASP Kubernetes Top 10. Each one is still common in 2026.</div>
+        <div><span class="badge">Tap to start →</span></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 2: No securityContext -->
+  <amp-story-page id="mistake-1" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">1</div>
+        <div class="label">Mistake 1 / 5</div>
+        <div class="headline">Missing securityContext</div>
+        <div class="body">Without it, containers run as root with full Linux capabilities. A container escape gives an attacker root on the node.</div>
+        <div class="code">securityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]</div>
+        <div class="fix">✓ Add securityContext to every container spec</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 3: Overpermissive RBAC -->
+  <amp-story-page id="mistake-2" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">2</div>
+        <div class="label">Mistake 2 / 5</div>
+        <div class="headline">ClusterRoleBinding to cluster-admin</div>
+        <div class="body">A service account with cluster-admin can read all secrets, modify any pod, and delete namespaces. One compromised pod = full cluster access.</div>
+        <div class="code"># Use namespace-scoped Role, not ClusterRole
+# Grant only the verbs your app actually needs:
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list"]  # not "*"</div>
+        <div class="fix">✓ Principle of least privilege: scope everything</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 4: No NetworkPolicy -->
+  <amp-story-page id="mistake-3" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">3</div>
+        <div class="label">Mistake 3 / 5</div>
+        <div class="headline">Flat cluster networking</div>
+        <div class="body">With no NetworkPolicy, any pod can talk to any other pod. A compromised frontend can reach your database directly. Default-deny stops lateral movement.</div>
+        <div class="code">kind: NetworkPolicy
+spec:
+  podSelector: {}
+  policyTypes: ["Ingress", "Egress"]
+# Then whitelist only what needs to talk to what</div>
+        <div class="fix">✓ Start with default-deny in every namespace</div>
+        <div class="warn">⚠ Requires Calico/Cilium CNI — not Flannel</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 5: Secrets in env vars -->
+  <amp-story-page id="mistake-4" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">4</div>
+        <div class="label">Mistake 4 / 5</div>
+        <div class="headline">Secrets leaked via kubectl describe</div>
+        <div class="body">Environment variables from Kubernetes Secrets appear in plain text in `kubectl describe pod`. Anyone with read access to pods sees your DB password.</div>
+        <div class="code"># Instead of env:, use envFrom with a mounted volume
+# Or: External Secrets Operator + Vault/AWS SM
+# At minimum: limit who can `kubectl describe pods`
+# in production namespaces</div>
+        <div class="fix">✓ Use ESO or Vault Agent sidecar injector</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 6: Unsigned images -->
+  <amp-story-page id="mistake-5" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">5</div>
+        <div class="label">Mistake 5 / 5</div>
+        <div class="headline">No image signature verification</div>
+        <div class="body">Pulling images by digest prevents tag mutation attacks. Without Sigstore/Cosign and Kyverno policy, anyone who can push to your registry can ship malicious code.</div>
+        <div class="code">kind: ClusterPolicy  # Kyverno
+spec:
+  rules:
+  - name: verify-image
+    verifyImages:
+    - imageReferences: ["registry.io/app/*"]
+      attestors:
+      - keyless: {subject: "ci@your-org.com"}</div>
+        <div class="fix">✓ Cosign sign + Kyverno verify in every pipeline</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 7: CTA -->
+  <amp-story-page id="end">
+    <amp-story-grid-layer template="fill">
+      <div class="end-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="end-content">
+        <div style="font-size:48px;margin-bottom:16px">🔍</div>
+        <div class="end-title">Check your K8s deprecated APIs</div>
+        <div class="end-body">Free tool that checks your Kubernetes manifests for deprecated and removed APIs before they break your next upgrade.</div>
+        <a class="end-link" href="https://releaserun.com/tools/k8s-deprecation-checker/">Free K8s API Checker →</a>
+        <div style="margin-top:8px"><a href="https://releaserun.com/kubernetes-rbac-reference/" style="color:#60a5fa;font-size:14px">K8s RBAC Reference Guide</a></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+</amp-story>
+</body>
+</html>
