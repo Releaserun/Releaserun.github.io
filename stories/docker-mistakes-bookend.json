@@ -1,0 +1,32 @@
+{
+  "bookendVersion": "v1.0",
+  "shareProviders": [
+    {"provider": "twitter"},
+    {"provider": "linkedin"},
+    {"provider": "email"}
+  ],
+  "components": [
+    {
+      "type": "heading",
+      "text": "More from ReleaseRun"
+    },
+    {
+      "type": "small",
+      "title": "Free Docker Vulnerability Scanner",
+      "url": "https://releaserun.com/tools/vulnerability-scanner/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    },
+    {
+      "type": "small",
+      "title": "Docker Reference Guide",
+      "url": "https://releaserun.com/docker-reference/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    },
+    {
+      "type": "small",
+      "title": "Dockerfile Best Practices Reference",
+      "url": "https://releaserun.com/dockerfile-best-practices/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    }
+  ]
+}
