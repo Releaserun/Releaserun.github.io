@@ -1,0 +1,186 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <title>5 Node.js Mistakes You're Probably Making in Production</title>
+  <meta name="description" content="5 common Node.js production mistakes: running EOL versions, blocking the event loop, missing graceful shutdown, unhandled rejections, and no memory limits in containers.">
+  <link rel="canonical" href="https://releaserun.github.io/stories/nodejs-mistakes.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-custom>
+    amp-story-page { background: #0f172a; }
+    .content { position: absolute; bottom: 80px; left: 0; right: 0; padding: 0 32px; }
+    .label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #4ade80; margin-bottom: 8px; }
+    .headline { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .body { font-size: 15px; color: #cbd5e1; line-height: 1.6; }
+    .code { background: rgba(0,0,0,0.5); border-left: 3px solid #4ade80; padding: 10px 14px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #e2e8f0; margin-top: 12px; white-space: pre-wrap; }
+    .num { font-size: 64px; font-weight: 900; color: rgba(74,222,128,0.15); position: absolute; top: 80px; right: 28px; line-height: 1; }
+    .fix { font-size: 13px; font-weight: 700; color: #4ade80; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+    .warn { font-size: 13px; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+    .cover-bg { background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%); }
+    .cover-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; }
+    .cover-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #4ade80; text-transform: uppercase; margin-bottom: 16px; }
+    .cover-title { font-size: 34px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .cover-sub { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .badge { display: inline-block; background: #16a34a; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .end-bg { background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%); }
+    .end-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; }
+    .end-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .end-body { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .end-link { background: #16a34a; color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+    .page-bg { background: linear-gradient(170deg, #052e16 0%, #0f172a 100%); position: absolute; inset: 0; }
+  </style>
+</head>
+<body>
+<amp-story standalone
+  title="5 Node.js Mistakes You're Probably Making in Production"
+  publisher="ReleaseRun"
+  publisher-logo-src="https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+  poster-portrait-src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=720&q=80">
+
+  <!-- Page 1: Cover -->
+  <amp-story-page id="cover">
+    <amp-story-grid-layer template="fill">
+      <div class="cover-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="cover-content">
+        <div class="cover-eyebrow">ReleaseRun · Node.js 2026</div>
+        <div class="cover-title">5 Node.js Mistakes You're Probably Making in Production</div>
+        <div class="cover-sub">Each one is easy to miss and expensive to debug at 2am.</div>
+        <div><span class="badge">Tap to start →</span></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 2: Mistake 1 — Running EOL Node.js -->
+  <amp-story-page id="mistake-1" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">1</div>
+        <div class="label">Mistake 1 / 5</div>
+        <div class="headline">Running an EOL Node.js version</div>
+        <div class="body">Node.js 18 hit end-of-life in April 2025. No more security patches. CVEs get discovered, nothing gets fixed. Many teams still haven't upgraded.</div>
+        <div class="code">node --version  # v18.x = EOL since Apr 2025
+# Current LTS: Node.js 22 (until Apr 2027)
+# Current: Node.js 24 (released May 2025)</div>
+        <div class="warn">⚠ Check your .nvmrc and base image tags</div>
+        <div class="fix">✓ Upgrade to Node.js 22 LTS today</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 3: Mistake 2 — Blocking the event loop -->
+  <amp-story-page id="mistake-2" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">2</div>
+        <div class="label">Mistake 2 / 5</div>
+        <div class="headline">Blocking the event loop</div>
+        <div class="body">JSON.parse() on a 10MB payload, synchronous fs calls, heavy regex — these freeze every request until they finish. Under load, this causes cascading timeouts.</div>
+        <div class="code">// Slow: blocks event loop
+const data = fs.readFileSync('big-file.json');
+
+// Fast: async, non-blocking
+const data = await fs.promises.readFile('big-file.json');</div>
+        <div class="fix">✓ Use async/await for all I/O</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 4: Mistake 3 — No memory limits in containers -->
+  <amp-story-page id="mistake-3" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">3</div>
+        <div class="label">Mistake 3 / 5</div>
+        <div class="headline">No memory limits in containers</div>
+        <div class="body">Node.js defaults to ~1.5GB heap. In a container with a 512MB limit, it'll get OOM-killed before V8's GC even tries to free memory. The fix is one flag.</div>
+        <div class="code">node --max-old-space-size=400 server.js
+# Or in package.json:
+"start": "node --max-old-space-size=400 server.js"</div>
+        <div class="fix">✓ Set heap size ~80% of container limit</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 5: Mistake 4 — Unhandled promise rejections -->
+  <amp-story-page id="mistake-4" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">4</div>
+        <div class="label">Mistake 4 / 5</div>
+        <div class="headline">Swallowing unhandled rejections</div>
+        <div class="body">Since Node.js 15, unhandled promise rejections crash the process (exit code 1). Older apps that relied on the silent swallow behavior break in production silently.</div>
+        <div class="code">process.on('unhandledRejection', (err) => {
+  console.error('Unhandled rejection:', err);
+  process.exit(1); // crash fast, don't limp
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+  process.exit(1);
+});</div>
+        <div class="fix">✓ Handle all rejections explicitly</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 6: Mistake 5 — No graceful shutdown -->
+  <amp-story-page id="mistake-5" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">5</div>
+        <div class="label">Mistake 5 / 5</div>
+        <div class="headline">Missing graceful shutdown</div>
+        <div class="body">When Kubernetes sends SIGTERM to roll out a new version, processes without a handler get killed mid-request. Users see 502s during every deploy.</div>
+        <div class="code">process.on('SIGTERM', () => {
+  server.close(() => {
+    db.disconnect();
+    process.exit(0);
+  });
+  // Force exit after 10s
+  setTimeout(() => process.exit(1), 10_000);
+});</div>
+        <div class="fix">✓ Always handle SIGTERM before shutdown</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 7: CTA -->
+  <amp-story-page id="end">
+    <amp-story-grid-layer template="fill">
+      <div class="end-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="end-content">
+        <div style="font-size:48px;margin-bottom:16px">⚡</div>
+        <div class="end-title">Know your Node.js version health</div>
+        <div class="end-body">Free badges that show your Node.js version's EOL status. Auto-updates when a version goes end-of-life. Works in any README.</div>
+        <a class="end-link" href="https://releaserun.com/badges/">Free Node.js Badges →</a>
+        <div style="margin-top:8px"><a href="https://releaserun.com/nodejs-reference/" style="color:#4ade80;font-size:14px">Node.js Reference Guide</a></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+</amp-story>
+</body>
+</html>
