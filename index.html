@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ReleaseRun — Free Developer Tools for Release Risk</title>
-  <meta name="description" content="Free developer tools for CVE monitoring, end-of-life tracking, dependency scanning, and upgrade planning. 50+ tools, no signup.">
+  <meta name="description" content="Free developer tools for CVE monitoring, end-of-life tracking, dependency scanning, and upgrade planning. 65 free tools. No signup.">
   <link rel="canonical" href="https://releaserun.github.io">
   <style>
     :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; --orange: #d29922; }
@@ -47,7 +47,7 @@
   <div class="container">
     <h1>Release<span>Run</span></h1>
     <p>Free developer tools for tracking software release risk. CVE monitoring, end-of-life checks, dependency scanning, and upgrade planning.</p>
-    <a href="https://releaserun.com/tools/" class="cta">Browse 30 Free Tools</a>
+    <a href="https://releaserun.com/tools/" class="cta">Browse 65 Free Tools</a>
   </div>
 </header>
 
@@ -114,6 +114,61 @@
         <h3><a href="https://github.com/Releaserun/releaserun-cli">ReleaseRun CLI</a></h3>
         <p>Scan any project directory for dependency health. Detects versions from package.json, go.mod, Dockerfile, requirements.txt, and more. Generates version-specific README badges.</p>
         <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/kubernetes-security-linter/">K8s YAML Security Linter</a></h3>
+        <p>12 security checks — runAsRoot, privileged containers, missing resource limits, hardcoded secrets. A–F score with fixes.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/docker-compose-security/">Docker Compose Security Checker</a></h3>
+        <p>Scan docker-compose.yml for Docker socket mounts, privileged containers, hardcoded secrets, and DB ports open to the world.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/github-actions-security/">GitHub Actions Security Checker</a></h3>
+        <p>Scan workflows for pull_request_target misuse, missing permissions blocks, and hardcoded credentials. A–F score.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/terraform-security/">Terraform Security Scanner</a></h3>
+        <p>Check .tf files for hardcoded AWS credentials, open SSH/DB ports, public S3 buckets, unencrypted RDS/EBS, no deletion protection.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/security-headers/">HTTP Security Headers Analyzer</a></h3>
+        <p>Check any URL for missing security headers: HSTS, CSP, X-Frame-Options, Permissions-Policy, and 6 more. Nginx snippet to fix them.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/npm-package-health/">npm Package Health Checker</a></h3>
+        <p>Paste package.json and find deprecated, abandoned (2y+), and single-maintainer risk packages.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/pypi-package-health/">PyPI Package Health Checker</a></h3>
+        <p>Paste requirements.txt and find yanked packages, abandoned deps (5y+), and version gaps against PyPI.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/go-module-health/">Go Module Health Checker</a></h3>
+        <p>Paste go.mod and find major version gaps, pseudo-versions, and stale dependencies via the Go module proxy.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/cargo-health/">Rust Cargo Health Checker</a></h3>
+        <p>Paste Cargo.toml and find yanked crates, major version gaps, and abandoned crates.io packages.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/maven-dependency-health/">Maven Dependency Health Checker</a></h3>
+        <p>Paste pom.xml or Maven coordinates. Flags outdated Spring Boot, log4j 1.x EOL, and Log4Shell-vulnerable log4j 2.x versions.</p>
+        <span class="tag tag-free">Free</span>
+      </div>
+      <div class="card">
+        <h3><a href="https://releaserun.com/tools/github-actions-audit/">GitHub Actions Version Auditor</a></h3>
+        <p>Check every uses: action for outdated versions, mutable tag pinning, and unverified publishers.</p>
+        <span class="tag tag-security">Security</span> <span class="tag tag-free">Free</span>
       </div>
       <div class="card">
         <h3><a href="https://github.com/Releaserun/releaserun-action">GitHub Action</a></h3>
