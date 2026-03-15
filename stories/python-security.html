@@ -1,0 +1,192 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <title>5 Python Security Mistakes That Expose Your Application</title>
+  <meta name="description" content="5 Python security anti-patterns: eval on user input, pickle deserialization, hardcoded credentials, outdated dependencies, and unsafe YAML loading.">
+  <link rel="canonical" href="https://releaserun.github.io/stories/python-security.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-custom>
+    amp-story-page { background: #0f172a; }
+    .content { position: absolute; bottom: 80px; left: 0; right: 0; padding: 0 32px; }
+    .label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fbbf24; margin-bottom: 8px; }
+    .headline { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .body { font-size: 15px; color: #cbd5e1; line-height: 1.6; }
+    .code { background: rgba(0,0,0,0.5); border-left: 3px solid #fbbf24; padding: 10px 14px; border-radius: 4px; font-family: monospace; font-size: 12px; color: #e2e8f0; margin-top: 12px; white-space: pre-wrap; }
+    .num { font-size: 64px; font-weight: 900; color: rgba(251,191,36,0.15); position: absolute; top: 80px; right: 28px; line-height: 1; }
+    .fix { font-size: 13px; font-weight: 700; color: #4ade80; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+    .warn { font-size: 13px; font-weight: 700; color: #f87171; text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+    .cover-bg { background: linear-gradient(135deg, #3b2000 0%, #0f172a 100%); }
+    .cover-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 40px 32px; }
+    .cover-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: #fbbf24; text-transform: uppercase; margin-bottom: 16px; }
+    .cover-title { font-size: 32px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .cover-sub { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .badge { display: inline-block; background: #d97706; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .end-bg { background: linear-gradient(135deg, #3b2000 0%, #0f172a 100%); }
+    .end-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 32px; }
+    .end-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .end-body { font-size: 15px; color: #94a3b8; line-height: 1.6; margin-bottom: 32px; }
+    .end-link { background: #d97706; color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+    .page-bg { background: linear-gradient(170deg, #1c0f00 0%, #0f172a 100%); position: absolute; inset: 0; }
+  </style>
+</head>
+<body>
+<amp-story standalone
+  title="5 Python Security Mistakes That Expose Your Application"
+  publisher="ReleaseRun"
+  publisher-logo-src="https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+  poster-portrait-src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=720&q=80">
+
+  <!-- Page 1: Cover -->
+  <amp-story-page id="cover">
+    <amp-story-grid-layer template="fill">
+      <div class="cover-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="cover-content">
+        <div class="cover-eyebrow">ReleaseRun · Python Security</div>
+        <div class="cover-title">5 Python Security Mistakes That Expose Your Application</div>
+        <div class="cover-sub">These show up in code review constantly. Some are silent until someone exploits them.</div>
+        <div><span class="badge">Tap to start →</span></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 2: eval() on user input -->
+  <amp-story-page id="mistake-1" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">1</div>
+        <div class="label">Mistake 1 / 5</div>
+        <div class="headline">eval() on any external input</div>
+        <div class="body">One of the most dangerous Python anti-patterns. Any string that reaches eval() gets executed as Python code. Attackers can import os, delete files, open reverse shells.</div>
+        <div class="code"># Never do this
+result = eval(user_input)
+
+# Use ast.literal_eval for safe parsing
+import ast
+result = ast.literal_eval(user_input)
+# Only handles literals: strings, ints, dicts, lists</div>
+        <div class="warn">✗ eval() = remote code execution waiting to happen</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 3: Pickle from untrusted sources -->
+  <amp-story-page id="mistake-2" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">2</div>
+        <div class="label">Mistake 2 / 5</div>
+        <div class="headline">Unpickling data from users</div>
+        <div class="body">Python's pickle module executes arbitrary code during deserialization. Accepting pickle from an HTTP request or Redis queue (without ownership control) is an RCE vulnerability.</div>
+        <div class="code"># Dangerous: untrusted pickle = code execution
+data = pickle.loads(request.body)
+
+# Use JSON, MessagePack, or orjson instead
+import orjson
+data = orjson.loads(request.body)</div>
+        <div class="fix">✓ Pickle only for data you wrote yourself</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 4: Hardcoded credentials -->
+  <amp-story-page id="mistake-3" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">3</div>
+        <div class="label">Mistake 3 / 5</div>
+        <div class="headline">Secrets hardcoded in source</div>
+        <div class="body">GitHub's secret scanning finds API keys in milliseconds of a push. Rotation doesn't undo the exposure — git history preserves every version. `trufflehog` finds them retroactively.</div>
+        <div class="code">import os
+# Read from environment, not source
+DB_PASSWORD = os.environ["DB_PASSWORD"]
+API_KEY = os.environ.get("API_KEY", "")
+
+# Use python-dotenv for local dev .env files
+from dotenv import load_dotenv; load_dotenv()</div>
+        <div class="fix">✓ Secrets belong in env vars or a secrets manager</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 5: Outdated dependencies -->
+  <amp-story-page id="mistake-4" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">4</div>
+        <div class="label">Mistake 4 / 5</div>
+        <div class="headline">Unpinned or outdated dependencies</div>
+        <div class="body">Django 3.2 has 55 known CVEs. requests &lt;2.28 has 3 critical ones. Most projects accumulate vulnerable deps over 6-12 months without realising it.</div>
+        <div class="code"># Audit your requirements.txt right now:
+pip install pip-audit
+pip-audit
+
+# Or paste requirements.txt into:
+# releaserun.com/tools/vulnerability-scanner/</div>
+        <div class="fix">✓ Run pip-audit in CI on every PR</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 6: yaml.load() without Loader -->
+  <amp-story-page id="mistake-5" auto-advance-after="9s">
+    <amp-story-grid-layer template="fill">
+      <div class="page-bg"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="content">
+        <div class="num">5</div>
+        <div class="label">Mistake 5 / 5</div>
+        <div class="headline">yaml.load() without safe_load</div>
+        <div class="body">`yaml.load()` can deserialize Python objects. A malicious YAML file can call `os.system()` on load. PyYAML warns about it now, but the warning is easy to miss.</div>
+        <div class="code"># Dangerous — can execute code
+data = yaml.load(file)
+
+# Safe — only handles scalars, lists, dicts
+data = yaml.safe_load(file)
+
+# Or use ruamel.yaml in safe mode
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")</div>
+        <div class="fix">✓ Always yaml.safe_load() for external files</div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+  <!-- Page 7: CTA -->
+  <amp-story-page id="end">
+    <amp-story-grid-layer template="fill">
+      <div class="end-bg" style="position:absolute;inset:0"></div>
+    </amp-story-grid-layer>
+    <amp-story-grid-layer template="vertical">
+      <div class="end-content">
+        <div style="font-size:48px;margin-bottom:16px">🐍</div>
+        <div class="end-title">Scan your Python dependencies now</div>
+        <div class="end-body">Paste your requirements.txt and get a full CVE report. Checks against OSV.dev — 55 known vulns in Django 3.2 alone. Free, no signup.</div>
+        <a class="end-link" href="https://releaserun.com/tools/vulnerability-scanner/">Free Vuln Scanner →</a>
+        <div style="margin-top:8px"><a href="https://releaserun.com/python-reference/" style="color:#fbbf24;font-size:14px">Python Reference Guide</a></div>
+      </div>
+    </amp-story-grid-layer>
+  </amp-story-page>
+
+</amp-story>
+</body>
+</html>
