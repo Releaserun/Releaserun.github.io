@@ -1,0 +1,32 @@
+{
+  "bookendVersion": "v1.0",
+  "shareProviders": [
+    {"provider": "twitter"},
+    {"provider": "linkedin"},
+    {"provider": "email"}
+  ],
+  "components": [
+    {
+      "type": "heading",
+      "text": "More from ReleaseRun"
+    },
+    {
+      "type": "small",
+      "title": "Free Node.js EOL Health Badges",
+      "url": "https://releaserun.com/badges/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    },
+    {
+      "type": "small",
+      "title": "Node.js Hub: All Versions",
+      "url": "https://releaserun.com/nodejs/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    },
+    {
+      "type": "small",
+      "title": "Node.js Reference Guide",
+      "url": "https://releaserun.com/nodejs-reference/",
+      "image": "https://releaserun.com/wp-content/uploads/2025/02/rr-logo.png"
+    }
+  ]
+}
